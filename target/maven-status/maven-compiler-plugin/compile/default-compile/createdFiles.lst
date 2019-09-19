@@ -12,6 +12,7 @@ com\restfulservice\controller\MailApiController.class
 com\restfulservice\controller\BlogController.class
 com\restfulservice\model\FreeTrialUser.class
 com\restfulservice\configuration\MyWebConfig.class
+com\restfulservice\service\WebserviceImpl.class
 com\restfulservice\controller\FreeTrialUserController.class
 com\restfulservice\service\Webservice.class
 com\restfulservice\configuration\WebConfig.class
