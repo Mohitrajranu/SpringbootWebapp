@@ -2,6 +2,7 @@ E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\re
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\PasswordResetController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\BlogController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\service\UserServiceImpl.java
+E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\WebServiceController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\MainApplicationClass.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\model\Mail.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\model\UserToken.java
@@ -18,6 +19,7 @@ E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\ut
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\MailApiController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\service\UpdateLdapPassword.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\repository\UserTokenRepository.java
+E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\util\SendEmail.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\RestApiController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\model\Mailer.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\util\CallPythonApi.java
@@ -28,6 +30,7 @@ E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\mo
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\service\PhoneService.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\FreeTrialUserController.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\controller\MessagecallController.java
+E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\service\Webservice.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\service\EmailService.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\configuration\WebConfig.java
 E:\ShiroWS\FreeTrialBackEndController-master\src\main\java\com\restfulservice\util\BizUtil.java

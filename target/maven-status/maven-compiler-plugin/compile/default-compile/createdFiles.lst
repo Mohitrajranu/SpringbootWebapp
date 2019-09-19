@@ -13,6 +13,7 @@ com\restfulservice\controller\BlogController.class
 com\restfulservice\model\FreeTrialUser.class
 com\restfulservice\configuration\MyWebConfig.class
 com\restfulservice\controller\FreeTrialUserController.class
+com\restfulservice\service\Webservice.class
 com\restfulservice\configuration\WebConfig.class
 com\restfulservice\model\Mailer.class
 com\restfulservice\util\CallPythonApi.class
@@ -22,10 +23,12 @@ com\restfulservice\service\UserServiceImpl.class
 com\restfulservice\util\BizUtil.class
 com\restfulservice\repository\BlogRespository.class
 com\restfulservice\controller\DocToJpgConv.class
+com\restfulservice\controller\WebServiceController.class
 com\restfulservice\repository\UserRepository.class
 com\restfulservice\model\Mail.class
 com\restfulservice\util\CustomErrorType.class
 com\restfulservice\service\EmailService.class
+com\restfulservice\util\SendEmail.class
 com\restfulservice\MainApplicationClass.class
 com\restfulservice\model\Gmail_Pojo.class
 com\restfulservice\repository\FreeTrialRepository.class

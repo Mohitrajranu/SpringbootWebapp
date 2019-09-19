@@ -121,7 +121,131 @@ public class DocToJpgConv {
 		return output.toString();
 	}
 	
+	@RequestMapping(value="/postpdfTrackApi" ,method = RequestMethod.POST)
+	public Map<String, Object> pdfTrack(@RequestBody String json){
+		 Map<String, Object> jsonOut = new HashMap<>();
+		 JSONObject inputJson = null;
+		 
+		 
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		StringBuilder output = null;
+		
+
+		try {
+			inputJson = new JSONObject(json);
+			
+            processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/MailTracking.sh",inputJson.get("filename").toString());
+			Process process = processBuilder.start();
+
+			output = new StringBuilder();
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+			int exitVal = process.waitFor();
+			if (exitVal == 0) {
+				System.out.println(output);
+				//System.exit(0);
+			} else {
+				//abnormal...
+			}
+			JSONObject outputJson = new JSONObject(output.toString());
+           jsonOut.put("outputdata", outputJson.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jsonOut;
+	}
 	
+	@RequestMapping(value="/postpdfprevTrackApi" ,method = RequestMethod.POST)
+	public Map<String, Object> pdfprevTrack(@RequestBody String json){
+		 Map<String, Object> jsonOut = new HashMap<>();
+		 JSONObject inputJson = null;
+		 
+		 
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		StringBuilder output = null;
+	
+		try {
+			inputJson = new JSONObject(json);
+			
+            processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/PreviousMailTracking.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString());
+			Process process = processBuilder.start();
+
+			output = new StringBuilder();
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+			int exitVal = process.waitFor();
+			if (exitVal == 0) {
+				System.out.println(output);
+				//System.exit(0);
+			} else {
+				//abnormal...
+			}
+			JSONObject outputJson = new JSONObject(output.toString());
+           jsonOut.put("outputdata", outputJson.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jsonOut;
+	}
+	@RequestMapping(value="/pretimepdfTrackApi" ,method = RequestMethod.POST)
+	public Map<String, Object> prevTimeTrack(@RequestBody String json){
+		 Map<String, Object> jsonOut = new HashMap<>();
+		 JSONObject inputJson = null;
+		 
+		 
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		StringBuilder output = null;
+	
+		try {
+			inputJson = new JSONObject(json);
+			
+            processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/prevLogFile.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString(),inputJson.get("timestamp").toString());
+			Process process = processBuilder.start();
+
+			output = new StringBuilder();
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+			int exitVal = process.waitFor();
+			if (exitVal == 0) {
+				System.out.println(output);
+				//System.exit(0);
+			} else {
+				//abnormal...
+			}
+			JSONObject outputJson = new JSONObject(output.toString());
+           jsonOut.put("outputdata", outputJson.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jsonOut;
+	}
 	@RequestMapping(value="/postmailTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> save(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -131,23 +255,7 @@ public class DocToJpgConv {
 		ProcessBuilder processBuilder = new ProcessBuilder();
 
 		StringBuilder output = null;
-		// -- Linux --
-
-		// Run a shell command
-		//processBuilder.command("bash", "-c", "ls /home/mkyong/");
-
-		// Run a shell script
 		
-
-		
-		// -- Windows --
-
-		// Run a command
-		//processBuilder.command("cmd.exe", "/c", "dir C:\\Users\\mkyong");
-
-		// Run a bat file
-		//processBuilder.command("C:\\Users\\mkyong\\hello.bat");
-
 		try {
 			inputJson = new JSONObject(json);
 			
@@ -180,7 +288,89 @@ public class DocToJpgConv {
 		return jsonOut;
 	}
 	
+	@RequestMapping(value="/postprevmailTrackApi" ,method = RequestMethod.POST)
+	public Map<String, Object> saveprev(@RequestBody String json){
+		 Map<String, Object> jsonOut = new HashMap<>();
+		 JSONObject inputJson = null;
+		 
+		 
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		StringBuilder output = null;
+		
+		try {
+			inputJson = new JSONObject(json);
+			
+            processBuilder.command("/usr/local/tomcat9/PreviousMailTracking.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString());
+			Process process = processBuilder.start();
+
+			output = new StringBuilder();
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+			int exitVal = process.waitFor();
+			if (exitVal == 0) {
+				System.out.println(output);
+				//System.exit(0);
+			} else {
+				//abnormal...
+			}
+			JSONObject outputJson = new JSONObject(output.toString());
+           jsonOut.put("outputdata", outputJson.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jsonOut;
+	}
 	
+	@RequestMapping(value="/pretimevmailTrackApi" ,method = RequestMethod.POST)
+	public Map<String, Object> fetchprev(@RequestBody String json){
+		 Map<String, Object> jsonOut = new HashMap<>();
+		 JSONObject inputJson = null;
+		 
+		 
+		ProcessBuilder processBuilder = new ProcessBuilder();
+
+		StringBuilder output = null;
+			try {
+			inputJson = new JSONObject(json);
+			
+            processBuilder.command("/usr/local/tomcat9/prevLogFile.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString(),inputJson.get("timestamp").toString());
+			Process process = processBuilder.start();
+
+			output = new StringBuilder();
+
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+			int exitVal = process.waitFor();
+			if (exitVal == 0) {
+				System.out.println(output);
+				//System.exit(0);
+			} else {
+				//abnormal...
+			}
+			JSONObject outputJson = new JSONObject(output.toString());
+           jsonOut.put("outputdata", outputJson.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return jsonOut;
+	}
+
 	
 	@RequestMapping(value = "/mailTrackpi", method = RequestMethod.GET)
 	public String trackedFileName(@RequestParam String filename){
