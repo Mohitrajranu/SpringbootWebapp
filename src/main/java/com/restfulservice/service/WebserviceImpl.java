@@ -2,8 +2,8 @@ package com.restfulservice.service;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
+import org.apache.tomcat.util.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
