@@ -3,10 +3,13 @@ package com.restfulservice.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -65,6 +68,44 @@ public class MailApiController {
 	 
 	 @Value("${app.mailTangyslingUrl}")
 	 private String mailTangyServerUrl;
+	
+	 
+	 @RequestMapping(value = "/provisionApi", method = RequestMethod.GET)
+		public String provision(@RequestParam("email") String email,HttpServletRequest request){
+			String s = null;
+			String appUrl = null;
+			Map<String, Object> model = null;
+			try{
+				Optional<UserToken> optional = userService.findUserByEmail(email.trim());
+		 	       if (!optional.isPresent()) {
+		 	        UserToken user = new UserToken();
+		 	        user.setCurrentstatus(0);
+		 	        user.setEmail(email.trim());
+					user.setResetToken(UUID.randomUUID().toString());
+					userService.save(user);
+			       appUrl = request.getScheme() + "://" + request.getServerName()+":8087/apirest/reset?token="+user.getResetToken();
+		 	      
+		 	       }else{
+		 	    	  UserToken user = optional.get();
+		 	    	  appUrl = request.getScheme() + "://" + request.getServerName()+":8087/apirest/reset?token="+user.getResetToken();
+		 	       }
+		 	      Mailer mailer = new Mailer();
+					//mailer.setTo(user.getEmail());
+					model = new HashMap<String, Object>();
+					//model.put("username", user.getEmail());
+					model.put("link", appUrl);
+					mailer.setModel(model);
+					mailer.setMailSubject("Provision Request for UserId"+email.trim());
+					mailer.setMailFrom("bizlem.demo@gmail.com");
+					
+					mailer.setMailTo(email.trim());
+					emailService.sendProvisionEmail(mailer);
+					s="Provision mail Sent";
+			}catch(Exception e){
+				s="Provision mail failed"+e.getMessage();
+			}
+			return s;
+			}
 	 
 	 @RequestMapping(value="/send-mail" ,method = RequestMethod.POST)
 		public String  send(@RequestBody Mail mail) {

@@ -251,7 +251,7 @@ public class WebserviceImpl implements Webservice {
 		 ResponseEntity<String> passwordResponse = null;
 		try {
 			jsonOut =  new HashMap<>();
-			request = new JSONObject(json);
+			/*request = new JSONObject(json);
 			String serverUrl = request.getString("url");
 			response = request.getJSONObject("input");
         	headers = new HttpHeaders();
@@ -261,10 +261,10 @@ public class WebserviceImpl implements Webservice {
         		restPasswordTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         		restPasswordTemplate.getMessageConverters().add(new StringHttpMessageConverter());
         		String accessToken = request.getString("token");
-        		/*byte[] plainCredsBytes = plainCreds.getBytes();
+        		byte[] plainCredsBytes = plainCreds.getBytes();
         		byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
         		String base64Creds = new String(base64CredsBytes);
-*/
+
         		headers.add("Authorization", "Bearer "+accessToken);
         	}
         	else if(request.has("username") && request.has("password") && ((!BizUtil.isNullString(request.getString("username"))) &&  (!BizUtil.isNullString(request.getString("password"))) ) ){
@@ -279,7 +279,37 @@ public class WebserviceImpl implements Webservice {
         	passwordentity = new HttpEntity<String>(response.toString(), headers);
         	passwordResponse = restPasswordTemplate
 		        	  .exchange(serverUrl, HttpMethod.POST, passwordentity, String.class);
-        	output = new JSONObject(passwordResponse.getBody().toString());
+        	output = new JSONObject(passwordResponse.getBody().toString());*/
+			output= new JSONObject();
+			output.put("Unit_Name__c", "12345");
+			output.put("Day", "12");
+			output.put("Month", "January");
+			output.put("Year", "2018");
+			output.put("seller_name__c", "Instrumech Company Limited");
+			output.put("Sole_First_Purchaser__c", "Al-Azawi");
+			output.put("Joint_Purchaser__c", "Al-Farhan");
+			output.put("Nationality__c", "Emirati");
+			output.put("Passport_No__c", "12T2345");
+			output.put("Joint_Purchaser__c", "Al-Murad");
+			output.put("Registration_Id__c", "367834");
+			output.put("Registered_In__c", "653423");
+			output.put("Date_of_Registration__c", "01-10-2028");
+			output.put("Correspondence_Address__c", "Zayed City");
+			output.put("City__c", "Dubai");
+			output.put("Country__c", "UAE");
+			output.put("Telephone__c", "9699999999");
+			output.put("Mobile__c", "9899999999");
+			output.put("Email__c", "xyz.gmail.com");
+			output.put("Plot_Area__c", "5000sqft");
+			output.put("Bedroom_Type_Name__c","1 BHK");
+			output.put("Building_Name__c","Zenith");
+			output.put("Master_Community_en__c","LineTek");
+			output.put("Plot_Number__c","23");
+			output.put("Purchase_Price__c","1000");
+			output.put("Purchase_Price __c_en","2000");
+			output.put("Permitted_Use__c","yes");
+			output.put("Anticipated_Completion_Date__c","03-10-2018");
+
         	jsonOut.put("outputdata", output.toString());
 		}catch (Exception e) {
 			System.out.println("External ws call error caught"+e.getMessage());

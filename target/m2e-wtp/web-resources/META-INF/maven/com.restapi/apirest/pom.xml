@@ -104,6 +104,17 @@
         <artifactId>twilio-java-sdk</artifactId>
         <version>3.4.5</version>
     </dependency>
+     <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>java-http-client</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
+       <dependency>
+        <groupId>com.sendgrid</groupId>
+        <artifactId>sendgrid-java</artifactId>
+        <version>4.4.1</version>
+      </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
     <dependency>
     <groupId>org.apache.commons</groupId>

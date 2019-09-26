@@ -12,7 +12,7 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
 	
     // Replace recipient@example.com with a "To" address. If your account 
     // is still in the sandbox, this address must be verified.
-    static final String TO = "mohitraj.ranu@gmail.com";
+    static final String TO = "tejal.jabade10@gmail.com";
     // Replace smtp_username with your Amazon SES SMTP user name.
     static final String SMTP_USERNAME = "AKIAW53HZKAASLDK4R6U";
     

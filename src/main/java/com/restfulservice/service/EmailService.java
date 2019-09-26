@@ -112,7 +112,24 @@ public class EmailService {
 
         emailSender.send(message);
     }
+    public void sendProvisionEmail(Mailer mail) throws Exception {
+        MimeMessage message = emailSender.createMimeMessage();
 
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+      
+        // Using a subfolder such as /templates here
+        freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/templates");
+        
+        Template t = freemarkerConfig.getTemplate("provision-email-template.ftl");
+        String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, mail.getModel());
+
+       // helper.setFrom(mail.getMailFrom());
+        helper.setTo(mail.getMailTo());
+        helper.setText(text, true);
+        helper.setSubject(mail.getMailSubject());
+
+        emailSender.send(message);
+    }
     public void sendFreeTrialEmail(Mailer mail) throws Exception {
         MimeMessage message = emailSender.createMimeMessage();
 

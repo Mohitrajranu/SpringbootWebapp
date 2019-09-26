@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.restfulservice.model.Mail;
 import com.restfulservice.model.Mailer;
 import com.restfulservice.model.UserToken;
 import com.restfulservice.service.EmailService;
