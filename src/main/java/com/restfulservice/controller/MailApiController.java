@@ -197,14 +197,14 @@ public class MailApiController {
 		 */
 		 String productType=null;
 	        try {
-	        	/*serverUrl = "http://bizlem.io:8082/portal/process/shoppingcart/ShoppingCartUserCheckServ123?userId="+mailer.getMailTo();
+	        	/*serverUrl = "http://bluealgo.com:8082/portal/process/shoppingcart/ShoppingCartUserCheckServ123?userId="+mailer.getMailTo();
 	 	        RestTemplate restGetTemplate = new RestTemplate();
 	 	       
 	 	        responseG = restGetTemplate.getForEntity(serverUrl, String.class);
 	 	      
 	 	       log.info("User Node Created in Shopping Cart"+responseG.getBody());
 	        	*/
-	        	serverUrl = "http://bizlem.io:8087/InvoiceAutoProcessUI/Userpassword";
+	        	serverUrl = "http://bluealgo.com:8087/InvoiceAutoProcessUI/Userpassword";
 				requestPassword = new JSONObject();
 				requestPassword.put("username", mailer.getMailTo());
 	        	headers = new HttpHeaders();
@@ -301,7 +301,7 @@ public class MailApiController {
 			
 			 String productType=null;
 		        try {
-		        	//serverUrl = "http://bizlem.io:8087/InvoiceAutoProcessUI/Userpassword";
+		        	//serverUrl = "http://bluealgo.com:8087/InvoiceAutoProcessUI/Userpassword";
 		 	        Optional<UserToken> optional = userService.findUserByEmail(mailer.getMailTo());
 		 	       if (!optional.isPresent()) {
 		 	        UserToken user = new UserToken();
@@ -312,7 +312,7 @@ public class MailApiController {
 					// Save token to database
 					userService.save(user);
 
-					String appUrl = reseturl.trim()+user.getResetToken();
+					String appUrl = null;
 					serverUrl = shoppingcarturl+mailer.getMailTo();
 		 	        RestTemplate restGetTemplate = new RestTemplate();
 		 	       
@@ -327,14 +327,7 @@ public class MailApiController {
 		        
 		        	//System.out.println(passwordResponse.getBody().toString());
 		        	
-		            model = new HashMap<String, Object>();
-					model.put("message", mailer.getMailContent());
-					model.put("link", appUrl);
-					model.put("location", "****warning***");
-					model.put("signature", "This is a System Generated Mail");
-					/*model.put("password", passwordResponse.getBody().toString());*/
-					mailer.setModel(model);
-		        	request = new JSONObject();
+		           request = new JSONObject();
 		        	request.put("username", mailer.getMailTo());
 		        	request.put("productType", mailer.getContentType());
 		        	resheaders = new HttpHeaders();
@@ -344,38 +337,47 @@ public class MailApiController {
 		        	productType = mailer.getContentType();
 		        	switch (productType) {
 		        	case "InvoiceAutoProcessFreeTrial":
+		        		appUrl = reseturl.trim()+user.getResetToken()+"&projectname=invoice";
 		        		loginResponse = restTemplate
 			        	  .exchange(urlString, HttpMethod.POST, entity, String.class);
 						break;
 					case "DocTigerFreeTrial":
+						appUrl = reseturl.trim()+user.getResetToken()+"&projectname=doctiger";
 						loginResponse = restTemplate
 			        	  .exchange(urlString, HttpMethod.POST, entity, String.class);
 						break;
 					case "CarrotRuleFreeTrial":
+						appUrl = reseturl.trim()+user.getResetToken()+"&projectname=carrotrule";
 						loginResponse = restTemplate
 			        	  .exchange(urlString, HttpMethod.POST, entity, String.class);
 						break;
 					case "MailTangyFreeTrial":
+						appUrl = reseturl.trim()+user.getResetToken()+"&projectname=mailtangy";
 						loginResponse = restTemplate
 			        	  .exchange(mailTangyServerUrl, HttpMethod.POST, entity, String.class);
 						break;
 					case "LeadAutoConvFrTrial":
+						appUrl = reseturl.trim()+user.getResetToken()+"&projectname=leadautoconvert";
 						loginResponse = restTemplate
 			        	  .exchange(urlString, HttpMethod.POST, entity, String.class);
 											break;
 						//LeadAutoConvFrTrial,  MailTangyFrTrial
 					default:
+						appUrl = reseturl.trim()+user.getResetToken()+"&projectname=default";
 						loginResponse = restTemplate
 			        	  .exchange(urlString, HttpMethod.POST, entity, String.class);
 						break;
 					}
 		        	//mailTangyServerUrl
-		        	
-		        	
-		        	
-		        	
 		        	if (loginResponse.getStatusCode() == HttpStatus.OK) {
-		        		
+		        		    model = new HashMap<String, Object>();
+							model.put("message", mailer.getMailContent());
+							model.put("link", appUrl);
+							model.put("location", "****warning***");
+							model.put("signature", "This is a System Generated Mail");
+							/*model.put("password", passwordResponse.getBody().toString());*/
+							mailer.setModel(model);
+				        	
 		        		emailService.sendFreeTrialEmail(mailer);
 		        		log.info("Mail Sent in "+(System.currentTimeMillis() - start));
 		        	} else if (loginResponse.getStatusCode() == HttpStatus.UNAUTHORIZED) {
@@ -384,7 +386,7 @@ public class MailApiController {
 		 	       }
 				} catch (Exception e) {
 					//e.printStackTrace();
-					log.error("Getting error in sendFreeTrialMail api"+e.getMessage());
+					log.error("Getting error in createFreeTrialAccount api"+e.getMessage());
 				}
 		        resheaders.setLocation(ucBuilder.path("/mailapi/createFreeTrialAccount/{link}").buildAndExpand(mailer.getLink()).toUri());
 		        

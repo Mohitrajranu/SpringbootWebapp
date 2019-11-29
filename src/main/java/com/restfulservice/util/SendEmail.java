@@ -6,41 +6,61 @@ import javax.mail.internet.*;
 import javax.activation.*; 
 
 public class SendEmail {// Replace sender@example.com with your "From" address.
-    // This address must be verified.
-    static final String FROM = "campaign@leadautoconvert.com";
-    static final String FROMNAME = " Campaign Lead AutoConvert";
+    // This address must be verified."Chetan Agarwal" <chetan_agarwal@hotmail.com>; 
+   // static final String FROM = "welcome@leadaconvert.com";
 	
+	
+    static final String FROM = "sales@doctiger.com";
+    static final String FROMNAME = "Rahul<via leadaconvert.com>";
     // Replace recipient@example.com with a "To" address. If your account 
     // is still in the sandbox, this address must be verified.
-    static final String TO = "tejal.jabade10@gmail.com";
+    static final String TO = "tejal.bizlem@gmail.com";
     // Replace smtp_username with your Amazon SES SMTP user name.
-    static final String SMTP_USERNAME = "AKIAW53HZKAASLDK4R6U";
-    
-    // Replace smtp_password with your Amazon SES SMTP password.
-    static final String SMTP_PASSWORD = "BDvlPAW1i61s5y6++PExdjHOTp0Qqa4iaYHeTbdGyXRL";
-    
+   // static final String SMTP_USERNAME = "AKIAW53HZKAAZLUXWQBW";
+   // static final String SMTP_USERNAME = "postmaster@mg.leadaconvert.com";
+   // static final String SMTP_USERNAME = "sales@doctiger.com";
+    static final String SMTP_USERNAME = "leadaconvert";
+    // Replace smtp_password with your Amazon SES SMTP password.welcome@leadaconvert.com 
+   
+    //static final String SMTP_PASSWORD = "BG7WKSAQSR/kEVrv9RMDdJUtcFWLUkd6ww5jat8tV9mM";
+   // static final String SMTP_PASSWORD = "fe6279036ac466250e3aa7bc6ec28f30-f696beb4-39f2f8aa";
+  //  static final String SMTP_PASSWORD = "Z7yB9pc6qXKxYvP0";
+    static final String SMTP_PASSWORD = "Ypd6Gy9AvkBfONN1lRHenQhP";
     // The name of the Configuration Set to use for this message.
     // If you comment out or remove this variable, you will also need to
-    // comment out or remove the header below.
+    // comment out or remove the header below.smtp-relay.sendinblue.com
     //static final String CONFIGSET = "ConfigSet";
     
     // Amazon SES SMTP host name. This example uses the US West (Oregon) region.
     // See https://docs.aws.amazon.com/ses/latest/DeveloperGuide/regions.html#region-endpoints
-    // for more information.
-    static final String HOST = "email-smtp.us-east-1.amazonaws.com";
+    // for more information.email-smtp.us-east-1.amazonaws.com
+    //static final String HOST = "email-smtp.us-east-1.amazonaws.com";
+   // static final String HOST ="smtp.mailgun.org"; 
+  //  static final String HOST ="smtp-relay.sendinblue.com"; 
+    static final String HOST ="142.44.163.181"; 
     
     // The port you will connect to on the Amazon SES SMTP endpoint. 
     static final int PORT = 587;
     
-    static final String SUBJECT = "Amazon SES test (SMTP interface accessed using Java)";
-    
+    static final String SUBJECT = "RDNS Mail Sender (SMTP interface accessed using Java)";
+
     static final String BODY = String.join(
     	    System.getProperty("line.separator"),
-    	    "<h1>Amazon SES SMTP Email Test</h1>",
-    	    "<p>This email was sent with Amazon SES using the ", 
-    	    "<a href='https://github.com/javaee/javamail'>Javamail Package</a>",
-    	    " for <a href='https://www.java.com'>Java</a>."
-    	);
+    	    "<p><small><a href='https://bizlem.io:8088/apirest/appredirecturl?uri=https://bizlem.io:8088/apirest/appunsubscribeurl?EMAIL=mohit.raj@bizlem.io&utm_source=Gulf_HR_explore_1'>Unsubscribe</a></small></p>",
+    	    "<p> mohit raj</p>",
+    	    "<p><strong>Greetings of the Day!</strong></p>",
+    	    "<p>As an HR Leader, you would appreciate how important is a crisp, well formatted and accurate communication is. The communication such as offer letters, hiring contract, appraisal letters and other HR Documents create lasting impression on the employees about the company.</p>",
+    	    "<p>We invite you to please visit our platform and see how all the documents and contracts can be transformed using our smart documents. We would love to get on a call and demonstrate how complete transformation can be achieved in weeks.</p>",
+    	    "<p>Please click on the link below to visit our platform</p>",
+"<p><a href='https://bizlem.io:8088/apirest/appredirecturl?uri=https://doctiger.com/doctiger-for-hr/?EMAIL=mohit.raj@bizlem.io&utm_source=Gulf_HR_explore_1'>doctiger.com</a></p>",
+"<p>Thanking you in advance,</p>",
+"<p><strong>Rahul</strong></p>",
+"<p>Doctiger Sales Management Team</p>",
+"<p><a href='https://bizlem.io:8088/apirest/appredirecturl?uri=mailto:sales@doctiger.com?EMAIL=mohit.raj@bizlem.io&utm_source=Gulf_HR_explore_1'>sales@doctiger.com</a></p>",
+    	"<p>+1&nbsp;&nbsp;315 636 3128</p>",
+    	"<p>+44&nbsp;&nbsp;2380971006</p>",
+    	"<p>+91 7506272969</p>"
+    		);
 
     public static void main(String[] args) throws Exception {
 
@@ -71,7 +91,7 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
         // Send the message.
         try
         {
-            System.out.println("Sending...");
+            System.out.println("Sending..."+msg.toString());
             
             // Connect to Amazon SES using the SMTP username and password you specified above.
             transport.connect(HOST, SMTP_USERNAME, SMTP_PASSWORD);
@@ -83,6 +103,7 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
         catch (Exception ex) {
             System.out.println("The email was not sent.");
             System.out.println("Error message: " + ex.getMessage());
+            ex.printStackTrace();
         }
         finally
         {

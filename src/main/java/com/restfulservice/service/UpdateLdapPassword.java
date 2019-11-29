@@ -1,5 +1,7 @@
 package com.restfulservice.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.ModificationItem;
 @Service
 public class UpdateLdapPassword {
+	private static final Logger log = LoggerFactory.getLogger(UpdateLdapPassword.class);
 	@Value("${app.ldapUrl}")
 	 private String ldapUrl;
 	private DirContext dirContext = null;
@@ -21,7 +24,7 @@ public class UpdateLdapPassword {
 	public void updateLdap(String userId,String userpassword){
 		try
 		{
-     //  String url = "ldap://development.bizlem.io:389";
+     //  String url = "ldap://development.bluealgo.com:389";
 	  // String conntype = "simple";
   	    String AdminDn  = "cn=admin,dc=portal,dc=com";
 	    String password = "portal@99";
@@ -36,23 +39,24 @@ public class UpdateLdapPassword {
 		environmentVar.put(Context.SECURITY_CREDENTIALS, password);
  
 		dirContext = new InitialDirContext(environmentVar);
-        System.out.println("context created");
+		log.info(" updateLdap context created");
         
       //  String userIdForDN = "leadautoconvert@gmail.com";
 		String passwdToUpdate = BizUtil.encryptLdapPassword("SHA", userpassword);
 		//entryUpdateInLdap entryUpdateLdap = new entryUpdateInLdap();
 		if(updateStatus(userId,passwdToUpdate))
 		{
-		System.out.println("entry update completed");
+			log.info(" updateLdap entry update completed");
 		}
 		else
 		{
-		System.out.println("entry update failed");	
+			log.info(" updateLdap entry update failed");	
 		}
 		}
 		catch(Exception ee)
 		{
-			ee.printStackTrace();
+			log.error("updateLdap "+ee.getMessage());
+			//ee.printStackTrace();
 		}
 		finally {
 	        try {

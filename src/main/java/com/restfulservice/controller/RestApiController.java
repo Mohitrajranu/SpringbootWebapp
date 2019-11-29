@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.restfulservice.exception.ApiResponse;
+import com.restfulservice.model.UrlClicks;
 import com.restfulservice.model.User;
+import com.restfulservice.repository.UrlViewRepository;
 import com.restfulservice.repository.UserRepository;
 import com.restfulservice.util.CustomErrorType;
 @CrossOrigin( origins = "*" )
@@ -28,14 +32,25 @@ public class RestApiController {
 
 	@Autowired
 	UserRepository userRepository;
-	
+	@Autowired
+	private UrlViewRepository urlViewRepository; 
 	// -------------------Retrieve All Users---------------------------------------------
 
+	@RequestMapping(value = "/urlviews/", method = RequestMethod.GET)
+	public ResponseEntity<?> listAllUrlViews(@RequestParam String email,@RequestParam String templatename) {
+		List<UrlClicks> urlviews = urlViewRepository.findByEmailAndTemplatename(email, templatename);
+		if (urlviews.isEmpty()) {
+			return new ResponseEntity<>(new ApiResponse(false, "Email Address or templatename doesnot exist!"), HttpStatus.BAD_REQUEST);
+			// You many decide to return HttpStatus.NOT_FOUND
+		}
+		return new ResponseEntity<List<UrlClicks>>(urlviews, HttpStatus.OK);
+	}
+	
 		@RequestMapping(value = "/user/", method = RequestMethod.GET)
-		public ResponseEntity<List<User>> listAllUsers() {
+		public ResponseEntity<?> listAllUsers() {
 			List<User> users = userRepository.findAll();
 			if (users.isEmpty()) {
-				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(new ApiResponse(false, "No data exist!"),HttpStatus.NO_CONTENT);
 				// You many decide to return HttpStatus.NOT_FOUND
 			}
 			return new ResponseEntity<List<User>>(users, HttpStatus.OK);
@@ -49,7 +64,7 @@ public class RestApiController {
 			User user = userRepository.findById(Integer.parseInt(id));
 			if (user == null) {
 				logger.error("User with id {} not found.", id);
-				return new ResponseEntity(new CustomErrorType("User with id " + id 
+				return new ResponseEntity<>(new CustomErrorType("User with id " + id 
 						+ " not found"), HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -63,7 +78,7 @@ public class RestApiController {
 
 			if (userRepository.existsByUsernameAndRoleid(user.getUsername(),user.getRoleid())) {
 				logger.error("Unable to create. A User with name {} already exist", user.getUsername());
-				return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
+				return new ResponseEntity<>(new CustomErrorType("Unable to create. A User with name " + 
 				user.getUsername() + " and role "+user.getRoleid()+"already exist."),HttpStatus.CONFLICT);
 			}
 			userRepository.save(user);
@@ -83,7 +98,7 @@ public class RestApiController {
 
 			if (currentUser == null) {
 				logger.error("Unable to update. User with id {} not found.", id);
-				return new ResponseEntity(new CustomErrorType("Unable to update. User with id " + id + " not found."),
+				return new ResponseEntity<>(new CustomErrorType("Unable to update. User with id " + id + " not found."),
 						HttpStatus.NOT_FOUND);
 			}
 			currentUser.setUsername(user.getUsername());
@@ -106,7 +121,7 @@ public class RestApiController {
 			User user = userRepository.findById(Integer.parseInt(id));
 			if (user == null) {
 				logger.error("Unable to delete. User with id {} not found.", id);
-				return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
+				return new ResponseEntity<>(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
 						HttpStatus.NOT_FOUND);
 			}
 			userRepository.deleteUserById(Integer.parseInt(id));

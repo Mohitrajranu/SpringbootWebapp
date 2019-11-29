@@ -2,9 +2,12 @@ package com.restfulservice.controller;
 
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.restfulservice.exception.ApiResponse;
 import com.restfulservice.model.FreeTrialUser;
 import com.restfulservice.model.User;
 import com.restfulservice.repository.FreeTrialRepository;
+import com.restfulservice.util.BizUtil;
 import com.restfulservice.util.CustomErrorType;
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,22 +35,28 @@ public class FreeTrialUserController {
 
 	@Autowired
 	FreeTrialRepository freeTrialRepository;
-	
+	 @Value("${app.mailtempdoctigerUrl}")
+	 private String maildocapiurl;
+	 @Value("${app.mailtempdoctigerGroup}")
+	 private String maildocapigroup;
+	 
+	 @Value("${app.mailtempdoctigerEmail}")
+	 private String maildocapiemail;
 	
 	@RequestMapping(value = "/trialuser/", method = RequestMethod.GET)
-	public ResponseEntity<List<FreeTrialUser>> listAllUsers() {
+	public ResponseEntity<?> listAllUsers() {
 		List<FreeTrialUser> users = freeTrialRepository.findAll();
 		if (users.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new ApiResponse(false, "No data exist in freeTrial table!"),HttpStatus.NO_CONTENT);
 			// You many decide to return HttpStatus.NOT_FOUND
 		}
 		return new ResponseEntity<List<FreeTrialUser>>(users, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/trialuser/productList", method = RequestMethod.GET)
-	public ResponseEntity<List<FreeTrialUser>> listAllProducts(@RequestParam String username) {
+	public ResponseEntity<?> listAllProducts(@RequestParam String username) {
 		List<FreeTrialUser> users = freeTrialRepository.findByUsername(username);
 		if (users.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new ApiResponse(false, "No data exist in freeTrial table for the passed username!"),HttpStatus.NO_CONTENT);
 			// You many decide to return HttpStatus.NOT_FOUND
 		}
 		return new ResponseEntity<List<FreeTrialUser>>(users, HttpStatus.OK);
@@ -58,7 +69,7 @@ public class FreeTrialUserController {
 		FreeTrialUser user = freeTrialRepository.findByUsernameAndProductType(username,productType);
 		if (user == null) {
 			logger.error("User not found {} ", username);
-			return new ResponseEntity(new CustomErrorType("User " + username 
+			return new ResponseEntity<>(new CustomErrorType("User " + username 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<FreeTrialUser>(user, HttpStatus.OK);
@@ -71,11 +82,53 @@ public class FreeTrialUserController {
 
 		if (freeTrialRepository.existsByUsernameAndProductType(user.getUsername(),user.getProductType())) {
 			logger.error("Unable to create. A User with name {} already exist", user.getUsername());
-			return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " + 
+			return new ResponseEntity<>(new CustomErrorType("Unable to create. A User with name " + 
 			user.getUsername() + "already exist for Free Trial."),HttpStatus.CONFLICT);
 		}
 		freeTrialRepository.save(user);
+		JSONObject dependencyjson = null;
+		JSONObject datajsonobj= null;
+		JSONArray multidrpdown = null;
+		JSONArray dataarr = null;
+		try {
+			multidrpdown = new JSONArray();
+			multidrpdown.put("1");
+			//multidrpdown.put("2");
+			multidrpdown.put("3");
+			dependencyjson = new JSONObject();
+			datajsonobj = new JSONObject();
+			dataarr = new JSONArray();
+			dependencyjson.put("MailTempName", "freetrialtemplate");
+			dependencyjson.put("templateName", "");
+			dependencyjson.put("typeDataSource", "Enter manually");
+			dependencyjson.put("AttachtempalteType", "");
+			dependencyjson.put("esignature", "false");
+			dependencyjson.put("twofactor", "false");
+			dependencyjson.put("esigntype", "");
+			dependencyjson.put("Email", maildocapiemail);
+			dependencyjson.put("group", maildocapigroup);
 
+			dependencyjson.put("multipeDropDown", multidrpdown);
+
+			dependencyjson.put("Type", "Generation");
+			//data - (toId,name,startdate,enddate,productcode)
+			datajsonobj.put("toId", user.getUsername());
+            int index = user.getUsername().indexOf('@');
+            datajsonobj.put("name", user.getUsername().substring(0,index));
+            datajsonobj.put("startdate", user.getJoinedDate());
+            datajsonobj.put("enddate", user.getExpireday());
+            datajsonobj.put("productcode", user.getProductType());
+			dataarr.put(datajsonobj);
+            dependencyjson.put("data", dataarr);
+            
+            logger.info("Creating mailtemplate for the user : {}", dependencyjson.toString());
+			BizUtil.callPostAPIJSON(maildocapiurl, dependencyjson);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			logger.error(" Unable to Send freeTrial Mail "+e.getMessage());
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/apirest/trialuser/{id}").buildAndExpand(user.getId()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -118,7 +171,7 @@ public class FreeTrialUserController {
 				FreeTrialUser user = freeTrialRepository.findById(Integer.parseInt(id));
 				if (user == null) {
 					logger.error("Unable to delete. User with id {} not found.", id);
-					return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
+					return new ResponseEntity<>(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
 							HttpStatus.NOT_FOUND);
 				}
 				freeTrialRepository.deleteFreeTrialUserById(Integer.parseInt(id));

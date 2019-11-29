@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
+import com.mongodb.MongoClientOptions;
+
 import freemarker.template.TemplateException;
 
 @Configuration
@@ -26,6 +28,16 @@ public class MyWebConfig extends WebMvcConfigurerAdapter{
 //	        registry.viewResolver(resolver);
 //	    }
 //	
+	@Bean
+    public  MongoClientOptions mongoClientOptions(){
+		System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+		System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
+		System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
+		System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
+        MongoClientOptions.Builder builder = MongoClientOptions.builder();
+        MongoClientOptions options=builder.sslEnabled(true).build();        
+        return options;
+    }
 	@Bean
     public ViewResolver viewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();

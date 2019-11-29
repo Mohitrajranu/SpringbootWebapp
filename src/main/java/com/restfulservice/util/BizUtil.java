@@ -10,6 +10,23 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import sun.misc.BASE64Encoder;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import org.json.JSONObject;
 public class BizUtil {
 
 	private String iv = "fedcba9876543210";
@@ -126,27 +143,7 @@ public class BizUtil {
 	}
 
 	
-	public static boolean isNullString (String p_text){
-		if(p_text != null && p_text.trim().length() > 0 && !"null".equalsIgnoreCase(p_text.trim())){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
 	
-	public static boolean isBlank(final CharSequence cs) {
-		       int strLen;
-		      if (cs == null || (strLen = cs.length()) == 0) {
-		           return true;
-		       }
-		       for (int i = 0; i < strLen; i++) {
-	            if (!Character.isWhitespace(cs.charAt(i))) {
-		              return false;
-		           }
-	       }
-	        return true;
-	    }
 	public static String encryptLdapPassword(String algorithm, String _password) {
 		String sEncrypted = _password;
 		if ((_password != null) && (_password.length() > 0)) {
@@ -232,4 +229,108 @@ public class BizUtil {
 			randomStr= strBuild.toString();
 		return randomStr;
 	}
+	public static boolean isNullString (String p_text){
+		if(p_text != null && p_text.trim().length() > 0 && !"null".equalsIgnoreCase(p_text.trim())){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	public static boolean isBlank(final CharSequence cs) {
+		       int strLen;
+		      if (cs == null || (strLen = cs.length()) == 0) {
+		           return true;
+		       }
+		       for (int i = 0; i < strLen; i++) {
+	            if (!Character.isWhitespace(cs.charAt(i))) {
+		              return false;
+		           }
+	       }
+	        return true;
+	    }
+	public static String callPostAPIJSON(String urlstr, JSONObject Obj)  {
+
+
+
+		StringBuilder response =null;
+		int responseCode = 0;
+
+		try {
+
+		HttpURLConnection con = null;
+
+
+		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+		return null;
+		}
+
+		public void checkClientTrusted(X509Certificate[] certs, String authType) {
+		}
+
+		public void checkServerTrusted(X509Certificate[] certs, String authType) {
+		}
+
+		} };
+
+		try {
+		SSLContext sc = SSLContext.getInstance("SSL");
+		sc.init(null, trustAllCerts, new java.security.SecureRandom());
+		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+		} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+		}
+
+		// Create all-trusting host name verifier
+		HostnameVerifier allHostsValid = new HostnameVerifier() {
+		public boolean verify(String hostname, SSLSession session) {
+		return true;
+		}
+		};
+		// Install the all-trusting host verifier
+		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+
+		URL url = new URL(urlstr);
+		con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("POST");
+
+		con.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+		con.setRequestProperty("Accept-Charset", "UTF-8");
+
+		con.setDoOutput(true);
+
+		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
+		writer.write(Obj.toString());
+		writer.close();
+		wr.close();
+
+		responseCode = con.getResponseCode();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		response = new StringBuilder();
+
+		while ((inputLine = in.readLine()) != null) {
+		response.append(inputLine);
+		}
+		in.close();
+
+
+
+		}
+		catch (Exception e) {
+		e.printStackTrace();
+		//e.getMessage();
+		}
+		return response.toString();
+
+		}
+	
+	
 }

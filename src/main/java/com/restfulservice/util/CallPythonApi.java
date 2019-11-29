@@ -33,7 +33,7 @@ public class CallPythonApi {
 		 RestTemplate restPasswordTemplate = null;
 		 ResponseEntity<String> passwordResponse = null;
 		try {
-			String serverUrl = "http://bizlem.io:8087/InvoiceAutoProcessUI/Userpassword";
+			String serverUrl = "http://bluealgo.com:8087/InvoiceAutoProcessUI/Userpassword";
 			requestPassword = new JSONObject();
 			requestPassword.put("username", "rahul@bizlem.com");
         	headers = new HttpHeaders();

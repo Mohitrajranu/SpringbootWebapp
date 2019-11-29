@@ -226,25 +226,40 @@ public class SendgridTest {
 	    return mail;
 	  }
 
-	  // Minimum required to send an email
+	  // Minimum required to send an email test-7fxiy@mail-tester.com
 	  public static Mail buildHelloEmail() throws IOException {
-	    Email from = new Email("leadautoconvert@gmail.com");
-	    String subject = "Hello World from the Twilio SendGrid Java Library";
-	    Email to = new Email("innovatters@gmail.com");
-	    Content content = new Content("text/plain", "This mail is being sent from sendgrid account");
+		  Email fromEmail = new Email();
+		    fromEmail.setName("Geetanjali");
+		    fromEmail.setEmail("welcome@leadaconvert.com");
+		  //  mail.setFrom(fromEmail);
+	    //Email from = new Email("welcome@leadaconvert.com");
+	    String subject = "Doctiger  Dispaly name change MailTest";
+	    Email to = new Email("mohitraj.ranu@gmail.com");
+	   // Content content = new Content("text/plain", "This mail is being sent from sendgrid account");
+	    Content content = new Content();
+	    content.setType("text/html");
+	    content.setValue("<html><body>Sample Testmail to send through Sendgrid account</body></html>");
+	    Mail mail = new Mail(fromEmail, subject, to, content);
+	   // mail.addContent(content);
 	    // Note that when you use this constructor an initial personalization object
 	    // is created for you. It can be accessed via
 	    // mail.personalization.get(0) as it is a List object
-	    Mail mail = new Mail(from, subject, to, content);
-	    Email email = new Email("mohitraj.ranu@outlook.com");
+	   // Mail mail = new Mail(fromEmail, subject, to, content);
+	    mail.setFrom(fromEmail);
+	   /* Email email = new Email("sales@doctiger.com");
 	    mail.personalization.get(0).addTo(email);
-
+	    Email email1 = new Email("innovaters@gmail.com");
+	    mail.personalization.get(0).addTo(email1);*/
+	    Email email1 = new Email("mohit.raj@bizlem.io");
+	    mail.personalization.get(0).addTo(email1);
+	    /*Email email2 = new Email("chetan.agarwal@bizlem.com");
+	    mail.personalization.get(0).addTo(email2);*/
 	    return mail;
 	  }
 
 	  public static void baselineExample() throws IOException {
 		  //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
-	    SendGrid sg = new SendGrid("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");
+	    SendGrid sg = new SendGrid("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");
 	   //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
 	  
 	    sg.addRequestHeader("X-Mock", "true");

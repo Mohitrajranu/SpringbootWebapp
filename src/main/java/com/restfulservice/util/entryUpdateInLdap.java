@@ -27,7 +27,7 @@ ModificationItem[] modItemsOne = new ModificationItem[1];
     System.out.println("constructer called");
 		try
 		{
-       String url = "ldap://development.bizlem.io:389";
+       String url = "ldap://development.bluealgo.com:389";
 	  // String conntype = "simple";
   	 String AdminDn  = "cn=admin,dc=portal,dc=com";
 	   String password = "portal@99";

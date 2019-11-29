@@ -37,7 +37,7 @@ public class DocToJpgConv {
 		String encoded = Base64.getEncoder().encodeToString(bytes);
 		byte[] decoded = Base64.getDecoder().decode(encoded);
 		s = new String(decoded, "UTF-8");
-		System.out.println("Source content: " + s);
+		logger.info("Source content: " + s);
 		
 		//System.out.println(decoded.toString());
 	//	getDecodeData("هتاف للترحيب");
@@ -108,7 +108,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("convertedFileName "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -150,7 +150,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("pdfTrack MailTracking  "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -176,9 +176,12 @@ public class DocToJpgConv {
 	
 		try {
 			inputJson = new JSONObject(json);
-			
+			if(inputJson.has("projectName")){
+			    processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/PreviousSlingMailTracking.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString());
+			}else{
             processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/PreviousMailTracking.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString());
-			Process process = processBuilder.start();
+			
+			}Process process = processBuilder.start();
 
 			output = new StringBuilder();
 
@@ -192,7 +195,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("pdfprevTrack "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -217,9 +220,11 @@ public class DocToJpgConv {
 	
 		try {
 			inputJson = new JSONObject(json);
-			
+            if(inputJson.has("projectName")){
+            	processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/prevSlingLogFile.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString(),inputJson.get("timestamp").toString());
+			}else{
             processBuilder.command("/home/ubuntu/generationTomcat/apache-tomcat-8.5.41/prevLogFile.sh",inputJson.get("filename").toString(),inputJson.get("logfilename").toString(),inputJson.get("timestamp").toString());
-			Process process = processBuilder.start();
+			}Process process = processBuilder.start();
 
 			output = new StringBuilder();
 
@@ -233,7 +238,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("prevTimeTrack "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -259,6 +264,7 @@ public class DocToJpgConv {
 		try {
 			inputJson = new JSONObject(json);
 			
+			
             processBuilder.command("/usr/local/tomcat9/MailTracking.sh",inputJson.get("filename").toString());
 			Process process = processBuilder.start();
 
@@ -274,7 +280,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("prevTimeTrack "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -316,7 +322,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("postprevmailTrackApi "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -357,7 +363,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("pretimevmailTrackApi "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...
@@ -411,7 +417,7 @@ public class DocToJpgConv {
 
 			int exitVal = process.waitFor();
 			if (exitVal == 0) {
-				System.out.println(output);
+				logger.info("mailTrackpi "+output.toString());
 				//System.exit(0);
 			} else {
 				//abnormal...

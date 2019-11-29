@@ -5,13 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.restfulservice.util.BizUtil;
 
 @Service
 public class UpdateRavePassword {
-
+	private static final Logger log = LoggerFactory.getLogger(UpdateRavePassword.class);
 	
 	public void updateRecordSet(String password,String email){
 		// variables
@@ -24,8 +26,8 @@ public class UpdateRavePassword {
             Class.forName("com.mysql.jdbc.Driver");
         }
         catch(ClassNotFoundException cnfex) {
-            System.out.println("Problem in loading MySQL JDBC driver");
-            cnfex.printStackTrace();
+        	log.error("Problem in loading MySQL JDBC driver" +cnfex.getMessage());
+           // cnfex.printStackTrace();
         }
  
         // Step 2: Opening database connection
@@ -54,11 +56,12 @@ public class UpdateRavePassword {
             // Step 2.C: Executing SQL & retrieve data into ResultSet
             int sqlQueryResult = preparedStatement.executeUpdate();
  
-            System.out.println(sqlQueryResult + 
-                     " indicates PLAYER info updation is successful");
+           log.info(sqlQueryResult + 
+                     " Rave update successfully");
         }
         catch(SQLException sqlex){
-            sqlex.printStackTrace();
+        	log.error("Problem in updation rave" +sqlex.getMessage());
+          //  sqlex.printStackTrace();
         }
         finally {
  
@@ -67,15 +70,17 @@ public class UpdateRavePassword {
                 if(null != connection) {
  
                     // cleanup resources, once after processing
+                	if(null != preparedStatement){
                 	preparedStatement.clearParameters();
                     preparedStatement.close();
- 
+                	}
                     // and then finally close connection
                     connection.close();
                 }
             }
             catch (SQLException sqlex) {
-                sqlex.printStackTrace();
+            	log.error("Problem in connection closing" +sqlex.getMessage());
+                //sqlex.printStackTrace();
             }
 	}
 }
