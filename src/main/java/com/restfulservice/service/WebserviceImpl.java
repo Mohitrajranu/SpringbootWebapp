@@ -205,7 +205,6 @@ public class WebserviceImpl implements Webservice {
 			   Bson condition = new Document("$eq", webserviceid);
 				Bson filter = new Document("webserviceid", condition);
 				collection.deleteOne(filter);
-			   
 			   collection.insertOne(doc);
 			   jsonOut.put("outputdata", json);
 		} catch (Exception e) {
@@ -242,7 +241,6 @@ public class WebserviceImpl implements Webservice {
 				Bson filter = new Document("webserviceid", condition);
 				collection.deleteOne(filter);
 				res = "Success";
-			   
 		} catch (Exception e) {
 			res = "Fail";
 			log.error("deletuserdata error occured "+e.getMessage());
@@ -265,7 +263,6 @@ public class WebserviceImpl implements Webservice {
 		MongoClient mongo = null;
 		MongoDatabase db = null;
 		MongoCollection<Document> table = null;
-		
 		StringBuilder resp = null;
 		try{
 			System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
