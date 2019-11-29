@@ -467,6 +467,7 @@ public class WebserviceImpl implements Webservice {
 				.append("Institute", user.getType())
 				.append("Source", user.getSource());
 				table.updateOne(updtfilter,Updates.addToSet("Contacts", newContact));
+				log.info("new Contact added through external webservice");
 			}else{
 				Document newContact = new Document().append("Email", user.getEmailid())
 						.append("FirstName", user.getFirstname())
@@ -479,6 +480,7 @@ public class WebserviceImpl implements Webservice {
 						.append("Institute", user.getType())
 						.append("Source", user.getSource());
 						table.updateOne(updtfilter,Updates.addToSet("Contacts", newContact));
+						log.info("new Contact updated through external webservice");
 			}
 			
 		
