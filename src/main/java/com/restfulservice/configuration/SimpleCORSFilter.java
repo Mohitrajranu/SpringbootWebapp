@@ -12,9 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SimpleCORSFilter.
+ * @author Mohit Raj
+ */
 @Component
 public class SimpleCORSFilter implements Filter {
 
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     */
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,8 +33,14 @@ public class SimpleCORSFilter implements Filter {
         chain.doFilter(req, res);
     }
 
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+     */
     public void init(FilterConfig filterConfig) {}
 
+    /* (non-Javadoc)
+     * @see javax.servlet.Filter#destroy()
+     */
     public void destroy() {}
 
 }

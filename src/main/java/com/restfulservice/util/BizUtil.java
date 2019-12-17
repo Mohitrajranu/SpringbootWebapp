@@ -27,14 +27,31 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONObject;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class BizUtil.
+ */
 public class BizUtil {
 
+	/** The iv. */
 	private String iv = "fedcba9876543210";
+	
+	/** The key. */
 	private String key = "";
+	
+	/** The cipher. */
 	private Cipher cipher = null;
+	
+	/** The key spec. */
 	private SecretKeySpec keySpec = null;
+	
+	/** The iv spec. */
 	private IvParameterSpec ivSpec = null;
 
+	/**
+	 * Instantiates a new biz util.
+	 */
 	public BizUtil(){
 		try {
 			this.key = "D4:6E:AC:3F:F0:BE";
@@ -62,10 +79,10 @@ public class BizUtil {
 	}
 
 	/**
-	 * Bytes to Hexa conversion
+	 * Bytes to Hexa conversion.
 	 *
-	 * @param data
-	 * @return
+	 * @param data the data
+	 * @return the string
 	 */
 	public String bytesToHex(byte[] data) {
 		if (data == null) {
@@ -85,10 +102,10 @@ public class BizUtil {
 	}
 
 	/**
-	 * Encrpt the goven string
+	 * Encrpt the goven string.
 	 *
-	 * @param plainData
-	 * @throws Exception
+	 * @param plainData the plain data
+	 * @return the string
 	 */
 	public  String encrypt(String plainData){
 
@@ -112,6 +129,12 @@ public class BizUtil {
 		return bytesToHex(encrypted);
 	}
 
+	/**
+	 * Hex to bytes.
+	 *
+	 * @param str the str
+	 * @return the byte[]
+	 */
 	public byte[] hexToBytes(String str) {
 		if (str == null) {
 			return null;
@@ -129,10 +152,11 @@ public class BizUtil {
 	}
 
 	/**
-	 * Decrypt the given excrypted string
+	 * Decrypt the given excrypted string.
 	 *
-	 * @param encrStr
-	 * @throws Exception
+	 * @param encrData the encr data
+	 * @return the string
+	 * @throws Exception the exception
 	 */
 	public String decrypt(String encrData) throws Exception {
 		this.cipher.init(Cipher.DECRYPT_MODE, this.keySpec, this.ivSpec);
@@ -144,6 +168,13 @@ public class BizUtil {
 
 	
 	
+	/**
+	 * Encrypt ldap password.
+	 *
+	 * @param algorithm the algorithm
+	 * @param _password the password
+	 * @return the string
+	 */
 	public static String encryptLdapPassword(String algorithm, String _password) {
 		String sEncrypted = _password;
 		if ((_password != null) && (_password.length() > 0)) {
@@ -169,6 +200,14 @@ public class BizUtil {
 		}
 		return sEncrypted;
 	}
+	
+	/**
+	 * Find last index.
+	 *
+	 * @param str the str
+	 * @param x the x
+	 * @return the int
+	 */
 	public static int findLastIndex(String str, Character x) 
 	{ 
 	 int index = -1; 
@@ -183,6 +222,13 @@ public class BizUtil {
 	 return index; 
 	} 
 
+	/**
+	 * Replace last char.
+	 *
+	 * @param str the str
+	 * @param x the x
+	 * @return the string
+	 */
 	public static String replaceLastChar(String str, Character x) {
 
 		try {
@@ -202,7 +248,14 @@ public class BizUtil {
 		return str;
 	}
 	
+	/** The Constant alphaNumeric. */
 	private static final String alphaNumeric= "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+	
+	/**
+	 * Generate random.
+	 *
+	 * @return the string
+	 */
 	public static String generateRandom() {
 		String randomStr = null;
 		
@@ -229,6 +282,13 @@ public class BizUtil {
 			randomStr= strBuild.toString();
 		return randomStr;
 	}
+	
+	/**
+	 * Checks if is null string.
+	 *
+	 * @param p_text the p text
+	 * @return true, if is null string
+	 */
 	public static boolean isNullString (String p_text){
 		if(p_text != null && p_text.trim().length() > 0 && !"null".equalsIgnoreCase(p_text.trim())){
 			return false;
@@ -238,6 +298,12 @@ public class BizUtil {
 		}
 	}
 	
+	/**
+	 * Checks if is blank.
+	 *
+	 * @param cs the cs
+	 * @return true, if is blank
+	 */
 	public static boolean isBlank(final CharSequence cs) {
 		       int strLen;
 		      if (cs == null || (strLen = cs.length()) == 0) {
@@ -250,6 +316,14 @@ public class BizUtil {
 	       }
 	        return true;
 	    }
+	
+	/**
+	 * Call post APIJSON.
+	 *
+	 * @param urlstr the urlstr
+	 * @param Obj the obj
+	 * @return the string
+	 */
 	public static String callPostAPIJSON(String urlstr, JSONObject Obj)  {
 
 

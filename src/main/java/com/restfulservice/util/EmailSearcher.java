@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -29,9 +30,11 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import javax.mail.search.AndTerm;
+import javax.mail.search.ComparisonTerm;
 import javax.mail.search.FlagTerm;
 import javax.mail.search.FromTerm;
 import javax.mail.search.OrTerm;
+import javax.mail.search.ReceivedDateTerm;
 import javax.mail.search.SearchTerm;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -51,17 +54,30 @@ import org.jsoup.select.Elements;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This program demonstrates how to search for e-mail messages which satisfy
  * a search criterion.
- * @author www.codejava.net
+ * @author Mohit Raj
  *
  */
 public class EmailSearcher {
 
 
+	/** The folder inbox. */
 	private Folder folderInbox = null;
+	
+	/** The store. */
 	private  Store store = null;
+	
+	/**
+	 * Search email.
+	 *
+	 * @param host the host
+	 * @param port the port
+	 * @param userName the user name
+	 * @param password the password
+	 */
 	public void searchEmail(String host, String port, String userName,String password) {
 
 		Properties properties = new Properties();
@@ -86,6 +102,7 @@ public class EmailSearcher {
 
 			folderInbox = store.getFolder("INBOX");
 			folderInbox.open(Folder.READ_WRITE);
+			
 			Flags seen = new Flags(Flags.Flag.SEEN);
 			FlagTerm unseenFlagTerm = new FlagTerm(seen, false);
 			SearchTerm sender1 = new FromTerm(new InternetAddress("mohit.raj@bizlem.com"));
@@ -93,6 +110,7 @@ public class EmailSearcher {
 			Message[] foundMessages = folderInbox.search(searchTerm);
 			System.out.println("Message length found is "+foundMessages.length);
 			for (int i = 0; i < foundMessages.length; i++) {
+				
 				Message message = foundMessages[i];
 				System.out.println("The content returned in the body is "+message.getContent());
 				
@@ -111,7 +129,7 @@ public class EmailSearcher {
 					// content may contain attachments
 					System.out.println("Inside multipart attachment ");
 					Multipart multiPart = (Multipart) message.getContent();
-					s = getTextFromMessage(message);
+				//	s = getTextFromMessage(message);
 					int numberOfParts = multiPart.getCount();
 					System.out.println("Provided partcount is "+numberOfParts);
 					for (int partCount = 0; partCount < numberOfParts; partCount++) {
@@ -217,6 +235,14 @@ public class EmailSearcher {
 		}
 	}
 
+	/**
+	 * Send mail.
+	 *
+	 * @param filename the filename
+	 * @param to the to
+	 * @param messageContent the message content
+	 * @param sub the sub
+	 */
 	public void sendMail(String filename,String to,String messageContent,String sub){
 
 		// Recipient's email ID needs to be mentioned.
@@ -301,7 +327,15 @@ public class EmailSearcher {
 		}
 
 	}
-	 private static String getTextFromMessage(Message message) throws Exception {
+	 
+ 	/**
+ 	 * Gets the text from message.
+ 	 *
+ 	 * @param message the message
+ 	 * @return the text from message
+ 	 * @throws Exception the exception
+ 	 */
+ 	private static String getTextFromMessage(Message message) throws Exception {
 	        String result = "";
 	        if (message.isMimeType("multipart/*")) {
 	            MimeMultipart mimeMultipart = (MimeMultipart) message.getContent();
@@ -316,8 +350,12 @@ public class EmailSearcher {
 
 	    
 	    /**
-	     * Extracts the text content of a multipart email message
-	     */
+    	 * Extracts the text content of a multipart email message.
+    	 *
+    	 * @param mimeMultipart the mime multipart
+    	 * @return the text from mime multipart
+    	 * @throws Exception the exception
+    	 */
 	    private static String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
 			String result = "";
 			int partCount = mimeMultipart.getCount();
@@ -341,7 +379,13 @@ public class EmailSearcher {
 			}
 			return result;
 		}
-	    public static void generateExcel(String htmlData) {
+	    
+    	/**
+    	 * Generate excel.
+    	 *
+    	 * @param htmlData the html data
+    	 */
+    	public static void generateExcel(String htmlData) {
 			/*String htmlData = "<html><head><title>Jsoup html parse table</title></head><body><table class=tableData border=0><tr>"
 					+ "<th>Sr.No.</th><th>Student Name</th><th>City</th><th>Phone No</th></tr><tr><td>1</td><td>Dixit</td>"
 					+ "<td>Ahmedabad</td><td>9825098025</td></tr><tr><td>1</td><td>Saharsh</td><td>Ahmedabad</td><td>9825098015</td></tr></table>"
@@ -448,6 +492,11 @@ public class EmailSearcher {
 					}
 		}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args){
 
 		String host = "imap.gmail.com";

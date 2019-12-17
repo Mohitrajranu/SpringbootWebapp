@@ -44,9 +44,20 @@ import com.mongodb.client.model.Updates;
 import com.restfulservice.model.WordPress;
 import com.restfulservice.util.BizUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WebserviceImpl.
+ * @author Mohit Raj
+ */
 @Service("webservice")
 public class WebserviceImpl implements Webservice {
+	
+	/** The Constant log. */
 	private static final Logger log = LoggerFactory.getLogger(WebserviceImpl.class);
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#getuserwsdata(java.lang.String, java.lang.String)
+	 */
 	public Map<String, Object> getuserwsdata(String user, String servicename) {
 		JSONObject mainJson = null;
 		JSONObject out =null;
@@ -71,7 +82,7 @@ public class WebserviceImpl implements Webservice {
 			   database = mongoClient.getDatabase("webservice");
 			   collection=database.getCollection(servicename);
 			   FindIterable<Document> fi = collection.find(Filters.eq("user", user));        
-		        MongoCursor<Document> cursor = fi.iterator();
+		       MongoCursor<Document> cursor = fi.iterator();
 		        try {
 		            while(cursor.hasNext()) {
 		            	mainJson = new JSONObject(cursor.next().toJson());
@@ -94,6 +105,10 @@ public class WebserviceImpl implements Webservice {
 			}
 			return json;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#getuserdata(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public Map<String, Object> getuserdata(String user, String servicename, String webserviceid) {
 		JSONObject mainJson = null;
 		 Map<String, Object> json = null;
@@ -141,6 +156,9 @@ public class WebserviceImpl implements Webservice {
 			return json;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#postWebserviceData(java.lang.String)
+	 */
 	public Map<String, Object> postWebserviceData(String json) {
 		Map<String, Object> jsonOut = null;
 		 MongoClient mongoClient = null;
@@ -179,6 +197,9 @@ public class WebserviceImpl implements Webservice {
 		return jsonOut;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#putWebserviceData(java.lang.String)
+	 */
 	public Map<String, Object> putWebserviceData(String json) {
 		Map<String, Object> jsonOut = null;
 		 MongoClient mongoClient = null;
@@ -220,6 +241,10 @@ public class WebserviceImpl implements Webservice {
 		}
 		return jsonOut;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#deletuserdata(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public String deletuserdata(String user, String servicename, String webserviceid) {
 		MongoClient mongoClient = null;
 		 MongoDatabase database  = null;
@@ -256,6 +281,9 @@ public class WebserviceImpl implements Webservice {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#getMailSentCount(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public String getMailSentCount(String CreatedBy, String funnelName, String subCategory, String mailFlag,String arrayName) {
 
@@ -327,6 +355,10 @@ public class WebserviceImpl implements Webservice {
 		
 		return resp.toString();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#callWebserviceData(java.lang.String)
+	 */
 	@Override
 	public Map<String, Object> callWebserviceData(String json) {
 		HttpHeaders headers = null;
@@ -405,6 +437,10 @@ public class WebserviceImpl implements Webservice {
 		}
 		return jsonOut;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.Webservice#savefunnel(com.restfulservice.model.WordPress)
+	 */
 	@Override
 	public void savefunnel(WordPress user) {
 		MongoClientURI connectionString = null;
@@ -412,6 +448,7 @@ public class WebserviceImpl implements Webservice {
 		MongoDatabase db = null;
 		MongoCollection<Document> table = null;
 		MongoCursor<Document> cursor  =  null;
+		Bson updtfilter = null;
 		try{
 			DateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
 			Date dateobj = new Date();
@@ -426,7 +463,11 @@ public class WebserviceImpl implements Webservice {
 			mongo = new MongoClient(connectionString);
 			db = mongo.getDatabase("salesautoconvert");
 			table = db.getCollection("FirstCategoryMails");
-			Bson updtfilter = and(eq("Category", "Explore"), eq("funnelName", user.getName()), eq("CreatedBy", "jobs@bizlem.com"));
+			if(BizUtil.isNullString(user.getCreatedBy())){
+		    updtfilter = and(eq("Category", "Explore"), eq("funnelName", user.getName()), eq("CreatedBy", "jobs@bizlem.com"));
+			}else{
+				 updtfilter = and(eq("Category", "Explore"), eq("funnelName", user.getName()), eq("CreatedBy", user.getCreatedBy()));
+			}
 			 FindIterable<Document> fi = table.find(updtfilter);      
 		        cursor = fi.iterator();
 		        boolean existflag = false;
@@ -436,7 +477,12 @@ public class WebserviceImpl implements Webservice {
 				}
 			if(!(existflag)){
 				Document camp_details_doc = new Document();
-				camp_details_doc.put("CreatedBy", "jobs@bizlem.com");
+				if(BizUtil.isNullString(user.getCreatedBy())){
+					camp_details_doc.put("CreatedBy", "jobs@bizlem.com");
+				}else{
+					camp_details_doc.put("CreatedBy", user.getCreatedBy());
+				}
+				
 				camp_details_doc.put("funnelName", user.getName());
 				camp_details_doc.put("Category", "Explore");
 				camp_details_doc.put("FromName", "ExcelTemp");
@@ -445,11 +491,16 @@ public class WebserviceImpl implements Webservice {
 				camp_details_doc.put("Campaign_id", "HeadRoom");
 				camp_details_doc.put("Created_date", Current_Date);
 				camp_details_doc.put("week", "3");
-				camp_details_doc.put("group", "DoctigerMailTemplate");
+				//camp_details_doc.put("group", "DoctigerMailTemplate");
+				camp_details_doc.put("group", "Salesdoc");
 				List<Document> schedulearr = new ArrayList<Document>();
 				camp_details_doc.put("scheduleday", schedulearr);
 				camp_details_doc.put("scheduleTime", "");
+				if(BizUtil.isNullString(user.getCreatedBy())){
 				camp_details_doc.put("updateflag", "-1");
+				}else{
+					camp_details_doc.put("updateflag", "2");
+				}
 				camp_details_doc.put("leadMailIdCount", "");
 				camp_details_doc.put("subFunnelCampCount", "0");
 				table.updateOne(updtfilter, new Document("$set", camp_details_doc), new UpdateOptions().upsert(true));

@@ -7,9 +7,20 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DNS.
+ */
 public class DNS
 
  {
+    
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception
 
     {

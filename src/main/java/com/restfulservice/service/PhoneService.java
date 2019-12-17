@@ -17,13 +17,31 @@ import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Call;
 import com.twilio.sdk.resource.instance.Message;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PhoneService.
+ * @author Mohit Raj
+ */
 @Service
 public class PhoneService {
+	
+	/** The Constant log. */
 	private static final Logger log = LoggerFactory.getLogger(PhoneService.class);
+	
+	/** The Constant ACCOUNT_SID. */
 	public static final String ACCOUNT_SID = "AC33bf01eb146bd37250ad87365b8cf3da"; 
+    
+    /** The Constant AUTH_TOKEN. */
     public static final String AUTH_TOKEN = "7f6b43e8ab135387afe9a7ef70dcd9db";
+    
+    /** The Constant TWILIO_NUMBER. */
     public static final String TWILIO_NUMBER = "+18593286242";
     
+    /**
+     * Send SMS.
+     *
+     * @param phone the phone
+     */
     public void sendSMS(Phone phone) {
         try {
             TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
@@ -43,6 +61,11 @@ public class PhoneService {
         }
     }
     
+    /**
+     * Make call.
+     *
+     * @param phone the phone
+     */
     public void makeCall(Phone phone) {
         try {
             TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);

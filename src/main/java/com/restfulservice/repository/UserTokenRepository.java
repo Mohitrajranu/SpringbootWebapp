@@ -7,8 +7,27 @@ import org.springframework.stereotype.Repository;
 
 import com.restfulservice.model.UserToken;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface UserTokenRepository.
+ * @author Mohit Raj
+ */
 @Repository("userTokenRepository")
 public interface UserTokenRepository extends JpaRepository<UserToken, Integer> {
-	 Optional<UserToken> findByEmail(String email);
-	 Optional<UserToken> findByResetToken(String resetToken);
+	 
+ 	/**
+ 	 * Find by email.
+ 	 *
+ 	 * @param email the email
+ 	 * @return the optional
+ 	 */
+ 	Optional<UserToken> findByEmail(String email);
+	 
+ 	/**
+ 	 * Find by reset token.
+ 	 *
+ 	 * @param resetToken the reset token
+ 	 * @return the optional
+ 	 */
+ 	Optional<UserToken> findByResetToken(String resetToken);
 }

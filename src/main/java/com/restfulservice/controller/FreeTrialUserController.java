@@ -26,23 +26,41 @@ import com.restfulservice.model.User;
 import com.restfulservice.repository.FreeTrialRepository;
 import com.restfulservice.util.BizUtil;
 import com.restfulservice.util.CustomErrorType;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class FreeTrialUserController.
+ * @author Mohit Raj
+ */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/trialmgmt")
 public class FreeTrialUserController {
 
+	/** The Constant logger. */
 	public static final Logger logger = LoggerFactory.getLogger(FreeTrialUserController.class);
 
+	/** The free trial repository. */
 	@Autowired
 	FreeTrialRepository freeTrialRepository;
-	 @Value("${app.mailtempdoctigerUrl}")
+	 
+ 	/** The maildocapiurl. */
+ 	@Value("${app.mailtempdoctigerUrl}")
 	 private String maildocapiurl;
-	 @Value("${app.mailtempdoctigerGroup}")
+	 
+ 	/** The maildocapigroup. */
+ 	@Value("${app.mailtempdoctigerGroup}")
 	 private String maildocapigroup;
 	 
-	 @Value("${app.mailtempdoctigerEmail}")
+	 /** The maildocapiemail. */
+ 	@Value("${app.mailtempdoctigerEmail}")
 	 private String maildocapiemail;
 	
+	/**
+	 * List all users.
+	 *
+	 * @return the response entity
+	 */
 	@RequestMapping(value = "/trialuser/", method = RequestMethod.GET)
 	public ResponseEntity<?> listAllUsers() {
 		List<FreeTrialUser> users = freeTrialRepository.findAll();
@@ -52,6 +70,13 @@ public class FreeTrialUserController {
 		}
 		return new ResponseEntity<List<FreeTrialUser>>(users, HttpStatus.OK);
 	}
+	
+	/**
+	 * List all products.
+	 *
+	 * @param username the username
+	 * @return the response entity
+	 */
 	@RequestMapping(value = "/trialuser/productList", method = RequestMethod.GET)
 	public ResponseEntity<?> listAllProducts(@RequestParam String username) {
 		List<FreeTrialUser> users = freeTrialRepository.findByUsername(username);
@@ -62,6 +87,13 @@ public class FreeTrialUserController {
 		return new ResponseEntity<List<FreeTrialUser>>(users, HttpStatus.OK);
 	}
 	
+	/**
+	 * Gets the user.
+	 *
+	 * @param username the username
+	 * @param productType the product type
+	 * @return the user
+	 */
 	@RequestMapping(value = "/trialuser/{username}/{productType}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUser(@PathVariable("username") String username,@PathVariable("productType") String productType) {
 		logger.info("Fetching User {}", username);
@@ -76,6 +108,13 @@ public class FreeTrialUserController {
 	}
 
 	
+	/**
+	 * Creates the user.
+	 *
+	 * @param user the user
+	 * @param ucBuilder the uc builder
+	 * @return the response entity
+	 */
 	@RequestMapping(value = "/trialuser/", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody FreeTrialUser user, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating User : {}", user);
@@ -136,7 +175,14 @@ public class FreeTrialUserController {
 
 	// ------------------- Update a User ------------------------------------------------
 
-			@RequestMapping(value = "/trialuser/{username}", method = RequestMethod.PUT)
+			/**
+	 * Update user.
+	 *
+	 * @param username the username
+	 * @param user the user
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "/trialuser/{username}", method = RequestMethod.PUT)
 			public ResponseEntity<?> updateUser(@PathVariable("username") String username, @RequestBody FreeTrialUser user) {
 				logger.info("Updating User with id {}", username);
 
@@ -164,6 +210,12 @@ public class FreeTrialUserController {
 				return new ResponseEntity<FreeTrialUser>(currentUser, HttpStatus.OK);
 			}
 
+			/**
+			 * Delete user by id.
+			 *
+			 * @param id the id
+			 * @return the response entity
+			 */
 			@RequestMapping(value = "/trialuser/{id}", method = RequestMethod.DELETE)
 			public ResponseEntity<?> deleteUserById(@PathVariable("id") String id) {
 				logger.info("Fetching & Deleting User with id {}", id);

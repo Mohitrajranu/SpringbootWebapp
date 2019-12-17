@@ -1,6 +1,12 @@
 package com.restfulservice.util;
 
 
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,13 +17,44 @@ import org.springframework.web.client.RestTemplate;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CallPythonApi.
+ */
 public class CallPythonApi {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
-
+		//Thu Dec 12 15:42:06 IST 2019
+		
+			try {
+				DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+				SimpleDateFormat f = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+				 String dateStr = f.format(new Date());
+			 
+				Date pastDate = (Date)formatter.parse(dateStr);
+				System.out.println(pastDate.toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		String randomNum= BizUtil.generateRandom();
 		System.out.println(randomNum);
-		   /*String serverUrl = "http://35.221.160.146:5012/?file=/home/ubuntu/pyscript/ESSAR_FILES/Pricing Approval Sheet 2.xlsx";
+		String refreshToken="1\\0g-Ho67DRVLmUCgYIARAAGBASNwF-L9IrkJIUj170kKrDHhe2bf5ucKr1TFPx1fLS8c4Kk7zXdIXmUdtZZAy39DYHe-1KTa0Zw2g";
+		String receivedUrlString = "http://somewebsite.com/somepage.asp";
+		JSONObject outresponse = new JSONObject();
+		outresponse.put("refreshToken",receivedUrlString);
+		System.out.println(outresponse.get("refreshToken"));
+		
+		String cleanedUrlString  = outresponse.get("refreshToken").toString();
+		System.out.println(cleanedUrlString);
+		
+		/*String serverUrl = "http://35.221.160.146:5012/?file=/home/ubuntu/pyscript/ESSAR_FILES/Pricing Approval Sheet 2.xlsx";
 	        RestTemplate restTemplate = new RestTemplate();
 	       
 	        ResponseEntity<String> responseG = restTemplate.getForEntity(serverUrl, String.class);
@@ -25,7 +62,7 @@ public class CallPythonApi {
 	        
 	        JsonObject obj = (JsonObject) parser.parse(responseG.getBody());
 	        System.out.println(responseG.getBody());
-*/	
+
 		 HttpHeaders headers = null;
 		JSONObject requestPassword = null;
 		
@@ -48,7 +85,7 @@ public class CallPythonApi {
 			// TODO: handle exception
 		}
 		
-		
+		*/	
 	
 	}
 }

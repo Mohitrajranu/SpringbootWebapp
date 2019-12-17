@@ -11,8 +11,17 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GenericEmail.
+ */
 public class GenericEmail {
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 	    final String username = "sales@doctiger.com";  // like yourname@outlook.com 
 	    final String password = "doctiger123";   // password here
@@ -23,7 +32,7 @@ public class GenericEmail {
 	 
 	    StringBuilder host= new   StringBuilder (SMTPMXLookup.isAddressValid(username));
 	    props.put("mail.smtp.host", host.toString());
-	    //props.put("mail.smtp.host", "smtp-mail.outlook.com");
+	    //props.put("mail.smtp.host", "smtp-mail.outlook.com");mx.cloud.leadaconvert.com,mailstore1.secureserver.net,smtp.secureserver.net
 	    props.put("mail.smtp.port", "587");
 
 	    Session session = Session.getInstance(props,
@@ -44,7 +53,8 @@ public class GenericEmail {
 	            InternetAddress.parse("mohitraj.ranu@gmail.com"));   // like inzi769@gmail.com
 	        message.setSubject("Mail dynamic sender Test");
 	        message.setText("HI you have done sending mail with dynamic host outlook");
-
+            message.setReplyTo(new InternetAddress[] 
+            	      {new InternetAddress("")});
 	        Transport.send(message);
 
 	        System.out.println("Done");

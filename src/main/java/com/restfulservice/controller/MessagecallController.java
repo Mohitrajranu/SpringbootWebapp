@@ -15,16 +15,30 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.restfulservice.model.Phone;
 import com.restfulservice.service.PhoneService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MessagecallController.
+ * @author Mohit Raj
+ */
 @RestController
 @RequestMapping("/msggateway")
 public class MessagecallController {
 
+	/** The Constant logger. */
 	public static final Logger logger = LoggerFactory.getLogger(MessagecallController.class);
 
+	/** The phoneservice. */
 	@Autowired 
 	PhoneService phoneservice;
 	
-	 @RequestMapping(value="/phone-template",method = RequestMethod.POST)
+	 /**
+ 	 * Phone gateway.
+ 	 *
+ 	 * @param phone the phone
+ 	 * @param ucBuilder the uc builder
+ 	 * @return the response entity
+ 	 */
+ 	@RequestMapping(value="/phone-template",method = RequestMethod.POST)
 		public ResponseEntity<?> phoneGateway(@RequestBody Phone phone, UriComponentsBuilder ucBuilder){
 		 HttpHeaders headers = null;
 		 try {

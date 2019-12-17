@@ -5,26 +5,39 @@ import javax.mail.*;
 import javax.mail.internet.*; 
 import javax.activation.*; 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SendEmail.
+ */
 public class SendEmail {// Replace sender@example.com with your "From" address.
     // This address must be verified."Chetan Agarwal" <chetan_agarwal@hotmail.com>; 
    // static final String FROM = "welcome@leadaconvert.com";
 	
 	
-    static final String FROM = "sales@doctiger.com";
-    static final String FROMNAME = "Rahul<via leadaconvert.com>";
+    /** The Constant FROM. */
+static final String FROM = "welcome@leadaconvert.com";
+    
+    /** The Constant FROMNAME. */
+    static final String FROMNAME = "Doctiger";
+    
+    /** The Constant REPLYTO. */
+    static final String REPLYTO = "welcome@leadaconvert.com";
     // Replace recipient@example.com with a "To" address. If your account 
+    /** The Constant TO. */
     // is still in the sandbox, this address must be verified.
-    static final String TO = "tejal.bizlem@gmail.com";
+    static final String TO = "innovatters@gmail.com";
     // Replace smtp_username with your Amazon SES SMTP user name.
    // static final String SMTP_USERNAME = "AKIAW53HZKAAZLUXWQBW";
    // static final String SMTP_USERNAME = "postmaster@mg.leadaconvert.com";
-   // static final String SMTP_USERNAME = "sales@doctiger.com";
+   /** The Constant SMTP_USERNAME. */
+    // static final String SMTP_USERNAME = "sales@doctiger.com";
     static final String SMTP_USERNAME = "leadaconvert";
     // Replace smtp_password with your Amazon SES SMTP password.welcome@leadaconvert.com 
    
     //static final String SMTP_PASSWORD = "BG7WKSAQSR/kEVrv9RMDdJUtcFWLUkd6ww5jat8tV9mM";
    // static final String SMTP_PASSWORD = "fe6279036ac466250e3aa7bc6ec28f30-f696beb4-39f2f8aa";
-  //  static final String SMTP_PASSWORD = "Z7yB9pc6qXKxYvP0";
+  /** The Constant SMTP_PASSWORD. */
+    //  static final String SMTP_PASSWORD = "Z7yB9pc6qXKxYvP0";
     static final String SMTP_PASSWORD = "Ypd6Gy9AvkBfONN1lRHenQhP";
     // The name of the Configuration Set to use for this message.
     // If you comment out or remove this variable, you will also need to
@@ -36,14 +49,18 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
     // for more information.email-smtp.us-east-1.amazonaws.com
     //static final String HOST = "email-smtp.us-east-1.amazonaws.com";
    // static final String HOST ="smtp.mailgun.org"; 
-  //  static final String HOST ="smtp-relay.sendinblue.com"; 
+  /** The Constant HOST. */
+    //  static final String HOST ="smtp-relay.sendinblue.com"; 
     static final String HOST ="142.44.163.181"; 
     
+    /** The Constant PORT. */
     // The port you will connect to on the Amazon SES SMTP endpoint. 
     static final int PORT = 587;
     
-    static final String SUBJECT = "RDNS Mail Sender (SMTP interface accessed using Java)";
+    /** The Constant SUBJECT. */
+    static final String SUBJECT = "Mail Sender Api (SMTP interface accessed using Java)";
 
+    /** The Constant BODY. */
     static final String BODY = String.join(
     	    System.getProperty("line.separator"),
     	    "<p><small><a href='https://bizlem.io:8088/apirest/appredirecturl?uri=https://bizlem.io:8088/apirest/appunsubscribeurl?EMAIL=mohit.raj@bizlem.io&utm_source=Gulf_HR_explore_1'>Unsubscribe</a></small></p>",
@@ -62,6 +79,12 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
     	"<p>+91 7506272969</p>"
     		);
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception {
 
         // Create a Properties object to contain connection configuration information.
@@ -80,7 +103,8 @@ public class SendEmail {// Replace sender@example.com with your "From" address.
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(TO));
         msg.setSubject(SUBJECT);
         msg.setContent(BODY,"text/html");
-        
+        msg.setReplyTo(new InternetAddress[] 
+      	      {new InternetAddress(REPLYTO)});
         // Add a configuration set header. Comment or delete the 
         // next line if you are not using a configuration set
        // msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);

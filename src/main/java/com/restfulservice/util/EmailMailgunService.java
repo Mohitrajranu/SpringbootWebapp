@@ -11,9 +11,25 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class EmailMailgunService.
+ */
 public class EmailMailgunService {
+	
+	/** The mailgun api key. */
 	private String mailgunApiKey="e198500f1466df9518268093bcd13328-816b23ef-a0ebe910";
+	
+	/** The mailgun host. */
 	private String mailgunHost="sandbox82ab133390874677a58cf1153c19e9ab.mailgun.org";
+	
+	/**
+	 * Send.
+	 *
+	 * @param email the email
+	 * @return true, if successful
+	 */
 	public boolean send(Email email) {
         try {
 			Client client = Client.create();
@@ -38,6 +54,11 @@ public class EmailMailgunService {
 
     }
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		try {
 			EmailMailgunService emgs = new EmailMailgunService();

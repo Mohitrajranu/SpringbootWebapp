@@ -23,26 +23,45 @@ import com.restfulservice.model.UserToken;
 import com.restfulservice.repository.UserTokenRepository;
 import com.restfulservice.util.BizUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserServiceImpl.
+ * @author Mohit Raj
+ */
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
+	/** The user token repository. */
 	@Autowired
 	private UserTokenRepository userTokenRepository;
 
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.UserService#findUserByEmail(java.lang.String)
+	 */
 	@Override
 	public Optional<UserToken> findUserByEmail(String email) {
 		return userTokenRepository.findByEmail(email);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.UserService#findUserByResetToken(java.lang.String)
+	 */
 	@Override
 	public Optional<UserToken> findUserByResetToken(String resetToken) {
 		return userTokenRepository.findByResetToken(resetToken);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.UserService#save(com.restfulservice.model.UserToken)
+	 */
 	@Override
 	public void save(UserToken userToken) {
 		userTokenRepository.save(userToken);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.restfulservice.service.UserService#unsubscribeList(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public  void unsubscribeList(String mailTemplate,String unSubscribeEmail,String url){
 

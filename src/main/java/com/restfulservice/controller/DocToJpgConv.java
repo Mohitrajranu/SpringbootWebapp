@@ -18,17 +18,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DocToJpgConv.
+ * @author Mohit Raj
+ */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/doctojpeg")
 public class DocToJpgConv {
 
+	/** The Constant logger. */
 	public static final Logger logger = LoggerFactory.getLogger(DocToJpgConv.class);
 	
 	
 	
 	
 	
+	/**
+	 * Decode string.
+	 *
+	 * @param encodeStr the encode str
+	 * @return the string
+	 */
 	@RequestMapping(value = "/decodeString", method = RequestMethod.GET)
 	public String decodeString(@RequestParam String encodeStr){
 		String s = null;
@@ -69,6 +81,12 @@ public class DocToJpgConv {
 	*/}
 	
 	
+	/**
+	 * Converted file name.
+	 *
+	 * @param filename the filename
+	 * @return the string
+	 */
 	@RequestMapping(value = "/convertApi", method = RequestMethod.GET)
 	public String convertedFileName(@RequestParam String filename){
 		
@@ -121,6 +139,12 @@ public class DocToJpgConv {
 		return output.toString();
 	}
 	
+	/**
+	 * Pdf track.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/postpdfTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> pdfTrack(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -164,6 +188,12 @@ public class DocToJpgConv {
 		return jsonOut;
 	}
 	
+	/**
+	 * Pdfprev track.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/postpdfprevTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> pdfprevTrack(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -208,6 +238,13 @@ public class DocToJpgConv {
 		
 		return jsonOut;
 	}
+	
+	/**
+	 * Prev time track.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/pretimepdfTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> prevTimeTrack(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -251,6 +288,13 @@ public class DocToJpgConv {
 		
 		return jsonOut;
 	}
+	
+	/**
+	 * Save.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/postmailTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> save(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -294,6 +338,12 @@ public class DocToJpgConv {
 		return jsonOut;
 	}
 	
+	/**
+	 * Saveprev.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/postprevmailTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> saveprev(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -336,6 +386,12 @@ public class DocToJpgConv {
 		return jsonOut;
 	}
 	
+	/**
+	 * Fetchprev.
+	 *
+	 * @param json the json
+	 * @return the map
+	 */
 	@RequestMapping(value="/pretimevmailTrackApi" ,method = RequestMethod.POST)
 	public Map<String, Object> fetchprev(@RequestBody String json){
 		 Map<String, Object> jsonOut = new HashMap<>();
@@ -378,6 +434,12 @@ public class DocToJpgConv {
 	}
 
 	
+	/**
+	 * Tracked file name.
+	 *
+	 * @param filename the filename
+	 * @return the string
+	 */
 	@RequestMapping(value = "/mailTrackpi", method = RequestMethod.GET)
 	public String trackedFileName(@RequestParam String filename){
 		

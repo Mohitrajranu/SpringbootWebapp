@@ -13,14 +13,34 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.ModificationItem;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class UpdateLdapPassword.
+ * @author Mohit Raj
+ */
 @Service
 public class UpdateLdapPassword {
+	
+	/** The Constant log. */
 	private static final Logger log = LoggerFactory.getLogger(UpdateLdapPassword.class);
+	
+	/** The ldap url. */
 	@Value("${app.ldapUrl}")
 	 private String ldapUrl;
+	
+	/** The dir context. */
 	private DirContext dirContext = null;
+	
+	/** The mod items one. */
 	ModificationItem[] modItemsOne = new ModificationItem[1];
 	
+	/**
+	 * Update ldap.
+	 *
+	 * @param userId the user id
+	 * @param userpassword the userpassword
+	 */
 	public void updateLdap(String userId,String userpassword){
 		try
 		{
@@ -71,6 +91,14 @@ public class UpdateLdapPassword {
 	        }
 	    }
 	}
+	
+	/**
+	 * Update status.
+	 *
+	 * @param userId the user id
+	 * @param status the status
+	 * @return true, if successful
+	 */
 	public boolean updateStatus(String userId,String status )
 	{
 	boolean flag = false;

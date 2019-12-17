@@ -19,9 +19,22 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.ModificationItem;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class entryUpdateInLdap.
+ */
 public class entryUpdateInLdap {
+
+/** The dir context. */
 private DirContext dirContext = null;
+
+/** The mod items one. */
 ModificationItem[] modItemsOne = new ModificationItem[1];
+	
+	/**
+	 * Instantiates a new entry update in ldap.
+	 */
 	public entryUpdateInLdap()
 	{
     System.out.println("constructer called");
@@ -52,6 +65,11 @@ ModificationItem[] modItemsOne = new ModificationItem[1];
  
 	
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		//dn: uid=leadautoconvert@gmail.com,ou=People,dc=portal,dc=com
 		String userIdForDN = "leadautoconvert@gmail.com";
@@ -66,6 +84,14 @@ ModificationItem[] modItemsOne = new ModificationItem[1];
 		System.out.println("entry update failed");	
 		}
 	}
+	
+	/**
+	 * Update status.
+	 *
+	 * @param userId the user id
+	 * @param status the status
+	 * @return true, if successful
+	 */
 	public boolean updateStatus(String userId,String status )
 	{
 	boolean flag = false;

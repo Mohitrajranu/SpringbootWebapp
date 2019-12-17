@@ -22,10 +22,20 @@ import com.sendgrid.helpers.mail.objects.SpamCheckSetting;
 import com.sendgrid.helpers.mail.objects.SubscriptionTrackingSetting;
 import com.sendgrid.helpers.mail.objects.TrackingSettings;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SendgridTest.
+ */
 public class SendgridTest {
 
 
-	  // Fully populated Mail object
+	  /**
+  	 * Builds the kitchen sink.
+  	 *
+  	 * @return the mail
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	// Fully populated Mail object
 	  public static Mail buildKitchenSink() throws IOException {
 	    Mail mail = new Mail();
 
@@ -206,7 +216,13 @@ public class SendgridTest {
 	    return mail;
 	  }
 
-	  // API V3 Dynamic Template implementation
+	  /**
+  	 * Builds the dynamic template.
+  	 *
+  	 * @return the mail
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	// API V3 Dynamic Template implementation
 	  public static Mail buildDynamicTemplate() throws IOException {
 	    Mail mail = new Mail();
 
@@ -226,7 +242,13 @@ public class SendgridTest {
 	    return mail;
 	  }
 
-	  // Minimum required to send an email test-7fxiy@mail-tester.com
+	  /**
+  	 * Builds the hello email.
+  	 *
+  	 * @return the mail
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	// Minimum required to send an email test-7fxiy@mail-tester.com
 	  public static Mail buildHelloEmail() throws IOException {
 		  Email fromEmail = new Email();
 		    fromEmail.setName("Geetanjali");
@@ -257,7 +279,12 @@ public class SendgridTest {
 	    return mail;
 	  }
 
-	  public static void baselineExample() throws IOException {
+	  /**
+  	 * Baseline example.
+  	 *
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	public static void baselineExample() throws IOException {
 		  //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
 	    SendGrid sg = new SendGrid("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");
 	   //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
@@ -279,7 +306,12 @@ public class SendgridTest {
 	    }
 	  }
 
-	  public static void kitchenSinkExample() throws IOException {
+	  /**
+  	 * Kitchen sink example.
+  	 *
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	public static void kitchenSinkExample() throws IOException {
 	    SendGrid sg = new SendGrid("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");
 	    sg.addRequestHeader("X-Mock", "true");
 
@@ -298,7 +330,12 @@ public class SendgridTest {
 	    }
 	  }
 
-	  public static void dynamicTemplateExample() throws IOException {
+	  /**
+  	 * Dynamic template example.
+  	 *
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	public static void dynamicTemplateExample() throws IOException {
 	    SendGrid sg = new SendGrid("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");
 	    sg.addRequestHeader("X-Mock", "true");
 
@@ -316,7 +353,14 @@ public class SendgridTest {
 	      throw ex;
 	    }
 	  }
-	  public static void main(String[] args) throws IOException {
+	  
+  	/**
+  	 * The main method.
+  	 *
+  	 * @param args the arguments
+  	 * @throws IOException Signals that an I/O exception has occurred.
+  	 */
+  	public static void main(String[] args) throws IOException {
 	    baselineExample();
 	    // kitchenSinkExample();
 	    //dynamicTemplateExample();

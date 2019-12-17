@@ -11,10 +11,23 @@ import org.springframework.stereotype.Service;
 
 import com.restfulservice.util.BizUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UpdateRavePassword.
+ * @author Mohit Raj
+ */
 @Service
 public class UpdateRavePassword {
+	
+	/** The Constant log. */
 	private static final Logger log = LoggerFactory.getLogger(UpdateRavePassword.class);
 	
+	/**
+	 * Update record set.
+	 *
+	 * @param password the password
+	 * @param email the email
+	 */
 	public void updateRecordSet(String password,String email){
 		// variables
         Connection connection = null;

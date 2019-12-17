@@ -15,6 +15,11 @@ import com.mongodb.MongoClientOptions;
 
 import freemarker.template.TemplateException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MyWebConfig.
+ * @author Mohit Raj
+ */
 @Configuration
 @ComponentScan
 public class MyWebConfig extends WebMvcConfigurerAdapter{
@@ -27,6 +32,11 @@ public class MyWebConfig extends WebMvcConfigurerAdapter{
 //	        resolver.setViewClass(JstlView.class);
 //	        registry.viewResolver(resolver);
 //	    }
+/**
+ * Mongo client options.
+ *
+ * @return the mongo client options
+ */
 //	
 	@Bean
     public  MongoClientOptions mongoClientOptions(){
@@ -38,6 +48,12 @@ public class MyWebConfig extends WebMvcConfigurerAdapter{
         MongoClientOptions options=builder.sslEnabled(true).build();        
         return options;
     }
+	
+	/**
+	 * View resolver.
+	 *
+	 * @return the view resolver
+	 */
 	@Bean
     public ViewResolver viewResolver() {
         FreeMarkerViewResolver resolver = new FreeMarkerViewResolver();
@@ -48,6 +64,13 @@ public class MyWebConfig extends WebMvcConfigurerAdapter{
         return resolver;
     }
 
+    /**
+     * Freemarker config.
+     *
+     * @return the free marker configurer
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws TemplateException the template exception
+     */
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() throws IOException, TemplateException {
         FreeMarkerConfigurationFactory factory = new FreeMarkerConfigurationFactory();

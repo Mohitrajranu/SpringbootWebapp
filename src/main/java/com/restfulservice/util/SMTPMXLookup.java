@@ -6,8 +6,19 @@ import java.util.*;
 import javax.naming.*;
 import javax.naming.directory.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SMTPMXLookup.
+ */
 public class SMTPMXLookup {
   
+     /**
+      * Gets the mx.
+      *
+      * @param hostName the host name
+      * @return the mx
+      * @throws NamingException the naming exception
+      */
      private static String getMX( String hostName )
          throws NamingException {
      // Perform a DNS lookup for MX records in the domain
@@ -51,7 +62,7 @@ public class SMTPMXLookup {
         	else{
             mailhost.append(f[0]);
         	}
-        break;
+      //  break;
         }
         else if ( f[1].endsWith( "." ) ){
         	if(f[1].contains("google")){
@@ -62,7 +73,7 @@ public class SMTPMXLookup {
         	{
             mailhost.append(f[1].substring( 0, (f[1].length() - 1)));
         	}
-            break;
+        //    break;
         	
         }
         else{
@@ -73,7 +84,8 @@ public class SMTPMXLookup {
         	}else{
             mailhost.append(f[1]);
             
-        	}break;
+        	}
+        	//break;
         }
         //  THE fix *************            
      //   res.add( mailhost );
@@ -81,6 +93,12 @@ public class SMTPMXLookup {
      return mailhost.toString();
      }
 
+   /**
+    * Checks if is address valid.
+    *
+    * @param address the address
+    * @return the string
+    */
    public static String isAddressValid( String address ) {
      // Find the separator for the domain name
      int pos = address.indexOf( '@' );
@@ -106,13 +124,14 @@ public class SMTPMXLookup {
      return mxList;
      }
 
+   /**
+    * The main method.
+    *
+    * @param args the arguments
+    */
    public static void main( String args[] ) {
      String testData[] = {
-         "mohit.raj@bizlem.io",
-         "sales@doctiger.com",
-         "mohitraj.ranu@gmail.com",
-         "mohitraj.ranu@outlook.com",
-         "abhishek.tiwari@hotmail.com"
+         "welcome@leadaconvert.com"
          };
 
      for ( int ctr = 0 ; ctr < testData.length ; ctr++ ) {

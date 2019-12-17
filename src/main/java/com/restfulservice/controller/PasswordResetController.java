@@ -31,30 +31,54 @@ import com.restfulservice.service.UpdateLdapPassword;
 import com.restfulservice.service.UpdateRavePassword;
 import com.restfulservice.service.UserService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PasswordResetController.
+ * @author Mohit Raj
+ */
 @Controller
 //@RequestMapping("/password")
 public class PasswordResetController {
+	
+	/** The user service. */
 	@Autowired
 	private UserService userService;
+
+/** The email service. */
 //UrlViewRepository
 	@Autowired
 	private EmailService emailService;
+	
+	/** The update ldap password. */
 	@Autowired
 	private UpdateLdapPassword updateLdapPassword;
 
+	/** The update rave password. */
 	@Autowired
 	private UpdateRavePassword updateRavePassword;
 	
+	/** The url view repository. */
 	@Autowired
 	private UrlViewRepository urlViewRepository; 
 	
+	/** The url. */
 	@Value("${app.centrallogin}")
 	private String url;
 	
+	/** The projredirurl. */
 	@Value("${app.redirectURL}")
 	private String projredirurl;
+	
+	/** The key url. */
 	@Value("${app.mailtemplatekey}")
 	private String keyUrl;
+
+/**
+ * Hello.
+ *
+ * @param modelAndView the model and view
+ * @return the model and view
+ */
 //http://bluealgo.com/portal/centralconsole.jsp app.centrallogin
  @RequestMapping("/helloworld")
  public ModelAndView hello(ModelAndView modelAndView) {
@@ -65,6 +89,15 @@ public class PasswordResetController {
   modelAndView.setViewName("hello");
   return modelAndView;
  }
+ 
+ /**
+  * Displayurl unsubscribe.
+  *
+  * @param modelAndView the model and view
+  * @param email the email
+  * @param templatename the templatename
+  * @return the model and view
+  */
  @RequestMapping(value = "/appunsubscribeurl", method = RequestMethod.GET)//utm_source
 	public ModelAndView displayurlUnsubscribe(ModelAndView modelAndView, @RequestParam("EMAIL") String email,@RequestParam("utm_source") String templatename) {
 	 try {
@@ -78,6 +111,14 @@ public class PasswordResetController {
 		return modelAndView;
 	}
  
+ /**
+  * Displayurl click page.
+  *
+  * @param modelAndView the model and view
+  * @param uri the uri
+  * @param templatename the templatename
+  * @return the model and view
+  */
  @RequestMapping(value = "/appredirecturl", method = RequestMethod.GET)//utm_source
 	public ModelAndView displayurlClickPage(ModelAndView modelAndView, @RequestParam("uri") String uri,@RequestParam("utm_source") String templatename) {
 		
@@ -129,6 +170,13 @@ public class PasswordResetController {
 		return modelAndView;
 	}
  
+/**
+ * Display forgot password page.
+ *
+ * @param modelAndView the model and view
+ * @param projectname the projectname
+ * @return the model and view
+ */
 //Display forgotPassword page
 	@RequestMapping(value = "/forgot", method = RequestMethod.GET)
 	public ModelAndView displayForgotPasswordPage(ModelAndView modelAndView,@RequestParam("projectname") String projectname) {
@@ -138,6 +186,15 @@ public class PasswordResetController {
 		//return new ModelAndView("forgotPassword");
   }
   
+  /**
+   * Process forgot password form.
+   *
+   * @param modelAndView the model and view
+   * @param userEmail the user email
+   * @param projectname the projectname
+   * @param request the request
+   * @return the model and view
+   */
   // Process form submission from forgotPassword page
 	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	public ModelAndView processForgotPasswordForm(ModelAndView modelAndView, @RequestParam("email") String userEmail,@RequestParam("projectname") String projectname, HttpServletRequest request) {
@@ -207,6 +264,14 @@ public class PasswordResetController {
 
 	}
 
+	/**
+	 * Display reset password page.
+	 *
+	 * @param modelAndView the model and view
+	 * @param token the token
+	 * @param projectname the projectname
+	 * @return the model and view
+	 */
 	// Display form to reset password
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	public ModelAndView displayResetPasswordPage(ModelAndView modelAndView, @RequestParam("token") String token,@RequestParam("projectname") String projectname) {
@@ -223,6 +288,14 @@ public class PasswordResetController {
 		return modelAndView;
 	}
 
+	/**
+	 * Sets the new password.
+	 *
+	 * @param modelAndView the model and view
+	 * @param requestParams the request params
+	 * @param redir the redir
+	 * @return the model and view
+	 */
 	// Process reset password form
 	@RequestMapping(value = "/reset", method = RequestMethod.POST)
 	public ModelAndView setNewPassword(ModelAndView modelAndView, @RequestParam Map<String, String> requestParams, RedirectAttributes redir) {
@@ -261,6 +334,12 @@ public class PasswordResetController {
 		return modelAndView;
  }
  
+  /**
+   * Handle missing params.
+   *
+   * @param ex the ex
+   * @return the model and view
+   */
   // Going to reset page without a token redirects to login page
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public ModelAndView handleMissingParams(MissingServletRequestParameterException ex) {

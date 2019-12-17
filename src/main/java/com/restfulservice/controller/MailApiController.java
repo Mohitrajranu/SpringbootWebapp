@@ -1,16 +1,13 @@
 package com.restfulservice.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,47 +27,123 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.restfulservice.model.Mail;
 import com.restfulservice.model.Mailer;
 import com.restfulservice.model.UserToken;
 import com.restfulservice.service.EmailService;
 import com.restfulservice.service.UserService;
 import com.restfulservice.util.BizUtil;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class MailApiController.
+ * @author Mohit Raj
+ */
 @CrossOrigin( origins = "*" )
 @RestController
 @RequestMapping("/mailapi")
 public class MailApiController {
 
+	/** The Constant log. */
 	private static final Logger log = LoggerFactory.getLogger(MailApiController.class);
 	
-	 @Autowired
+	 /** The email service. */
+ 	@Autowired
 	  private EmailService emailService;
-	 @Autowired
+	 
+ 	/** The user service. */
+ 	@Autowired
 		private UserService userService;
+ 	
 	 /*@Value("${app.Url}")
 	 private String url;*/
 	/* @Value("${app.filePath}")
 	 private String filePath;*/
 	 
-	 @Value("${app.reseturl}")
+	 /** The reseturl. */
+ 	@Value("${app.reseturl}")
 	 private String reseturl;
 	 
-	 @Value("${app.slingUrl}")
+	 /** The url string. */
+ 	@Value("${app.slingUrl}")
 	 private String urlString;
 	 
-	 //app.mailTangyslingUrl
+	 /** The shoppingcarturl. */
+ 	//app.mailTangyslingUrl
 	 @Value("${app.shoppingcarturl}")
 	 private String shoppingcarturl;
 	 
-	 @Value("${app.mailapiurl}")
+	 /** The mailapiurl. */
+ 	@Value("${app.mailapiurl}")
 	 private String mailapiurl;
 	 
-	 @Value("${app.mailTangyslingUrl}")
+	 /** The mail tangy server url. */
+ 	@Value("${app.mailTangyslingUrl}")
 	 private String mailTangyServerUrl;
-	
 	 
-	 @RequestMapping(value = "/provisionApi", method = RequestMethod.GET)
+	 /** The mailread time url. */
+ 	@Value("${app.mailreadTimeUrl}")
+	 private String mailreadTimeUrl;
+	 
+	 /** The mailupdate time url. */
+ 	@Value("${app.mailupdateTimeUrl}")
+	 private String mailupdateTimeUrl;
+	
+	 /**
+ 	 * Readscheduled mail.
+ 	 *
+ 	 * @return the string
+ 	 */
+ 	@RequestMapping(value = "/readschMailApi", method = RequestMethod.GET)
+	 public String readscheduledMail(){
+		 RestTemplate restGetTemplate = new RestTemplate();
+		   try {
+			  // String dateStr = "Thu Dec 12 15:42:06 IST 2019";
+				DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+				SimpleDateFormat f = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+				ResponseEntity<String> responseG = restGetTemplate.getForEntity(mailreadTimeUrl, String.class);
+				String prevDate = responseG.getBody().trim();
+				Date pastDate = (Date)formatter.parse(prevDate);
+				//System.out.println(pastDate.toString());
+				emailService.readGodaddyMails(pastDate,true,"welcome@leadaconvert.com", "welcome@2019");
+				emailService.readGmailMails(pastDate,false,"sales@doctiger.com", "doctiger123");
+				emailService.readGodaddyMails(pastDate,true,"sales@leadautoconvert.com", "Sales@leadautoconvert@1");
+			    
+			    String dateStr = f.format(new Date());
+				 
+				Date updateDate = (Date)formatter.parse(dateStr);
+				HttpHeaders headers = new HttpHeaders();
+				headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+
+				UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(mailupdateTimeUrl)
+				        .queryParam("datetime", updateDate.toString())
+				        ;
+
+				HttpEntity<?> entity = new HttpEntity<>(headers);
+
+				HttpEntity<String> response = restGetTemplate.exchange(
+				        builder.toUriString(), 
+				        HttpMethod.GET, 
+				        entity, 
+				        String.class);
+				//ResponseEntity<String> responseG1 = restGetTemplate.getForEntity(mailupdateTimeUrl, String.class);
+			   log.info("Date time for scheduled mail"+response.getBody());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "fail";
+		}
+		 return "success";
+	 }
+	 
+ 	/**
+ 	 * Provision.
+ 	 *
+ 	 * @param email the email
+ 	 * @param request the request
+ 	 * @return the string
+ 	 */
+ 	@RequestMapping(value = "/provisionApi", method = RequestMethod.GET)
 		public String provision(@RequestParam("email") String email,HttpServletRequest request){
 			String s = null;
 			String appUrl = null;
@@ -107,7 +180,13 @@ public class MailApiController {
 			return s;
 			}
 	 
-	 @RequestMapping(value="/send-mail" ,method = RequestMethod.POST)
+	 /**
+ 	 * Send.
+ 	 *
+ 	 * @param mail the mail
+ 	 * @return the string
+ 	 */
+ 	@RequestMapping(value="/send-mail" ,method = RequestMethod.POST)
 		public String  send(@RequestBody Mail mail) {
 		 log.info("Spring Mail - Sending Simple Email with JavaMailSender Example");
 		 Long start = System.currentTimeMillis();
@@ -138,7 +217,14 @@ public class MailApiController {
 	        //return new ResponseEntity<String>(headers,HttpStatus.CREATED);
 	    }
 */
-	 ///mail-template /activemq/freeTrialNode
+	 /**
+  	 * Call active mq api.
+  	 *
+  	 * @param mailer the mailer
+  	 * @param ucBuilder the uc builder
+  	 * @return the response entity
+  	 */
+  	///mail-template /activemq/freeTrialNode
 	 @SuppressWarnings("unchecked")
 	@RequestMapping(value="/mail-template",method = RequestMethod.POST)
 		public ResponseEntity<?> callActiveMqApi(@RequestBody Mailer mailer, UriComponentsBuilder ucBuilder) {
@@ -156,7 +242,7 @@ public class MailApiController {
 				request.put("mailSubject",mailer.getMailSubject());
 				//getMailSubject mailSubject
 				String randomNum= BizUtil.generateRandom();
-				emailService.GetProducer("inbound.queue", randomNum, request.toString());
+			//	emailService.GetProducer("inbound.queue", randomNum, request.toString());
 				resheaders = new HttpHeaders();
 				
 				resheaders.setLocation(ucBuilder.path("/mailapi/mail-template/{link}").buildAndExpand(mailer.getLink()).toUri());	
@@ -174,7 +260,14 @@ public class MailApiController {
 	 
 	 
 	 
-	 @SuppressWarnings("unchecked")
+	 /**
+ 	 * Send email.
+ 	 *
+ 	 * @param mailer the mailer
+ 	 * @param ucBuilder the uc builder
+ 	 * @return the response entity
+ 	 */
+ 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/sendFreeTrialMail",method = RequestMethod.POST)
 		public ResponseEntity<?>  sendEmail(@RequestBody Mailer mailer, UriComponentsBuilder ucBuilder) {
 		 log.info("Spring Mail - Sending Simple Email with FreeMarker Example");
@@ -279,7 +372,14 @@ public class MailApiController {
 			return new ResponseEntity<String>(resheaders, HttpStatus.CREATED);
 	  }
 
-	 @SuppressWarnings("unchecked")
+	 /**
+ 	 * Creates the account.
+ 	 *
+ 	 * @param mailer the mailer
+ 	 * @param ucBuilder the uc builder
+ 	 * @return the response entity
+ 	 */
+ 	@SuppressWarnings("unchecked")
 		@RequestMapping(value="/createFreeTrialAccount",method = RequestMethod.POST)
 			public ResponseEntity<?>  createAccount(@RequestBody Mailer mailer, UriComponentsBuilder ucBuilder) {
 			 log.info("Spring Mail - Sending Simple Email with FreeMarker Example");
