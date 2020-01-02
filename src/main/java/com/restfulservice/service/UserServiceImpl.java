@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
 	/** The user token repository. */
 	@Autowired
 	private UserTokenRepository userTokenRepository;
+	
 
 	/* (non-Javadoc)
 	 * @see com.restfulservice.service.UserService#findUserByEmail(java.lang.String)
@@ -127,6 +128,11 @@ public class UserServiceImpl implements UserService {
        	 }
        }
 		
+	}
+
+	@Override
+	public List<UserToken> findByResetTokenIsNull() {
+		return userTokenRepository.findByResetTokenIsNull();
 	}
 
 

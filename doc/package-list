@@ -1,0 +1,8 @@
+com.restfulservice
+com.restfulservice.configuration
+com.restfulservice.controller
+com.restfulservice.exception
+com.restfulservice.model
+com.restfulservice.repository
+com.restfulservice.service
+com.restfulservice.util

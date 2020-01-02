@@ -52,7 +52,7 @@ public class DocToJpgConv {
 		logger.info("Source content: " + s);
 		
 		//System.out.println(decoded.toString());
-	//	getDecodeData("هتاف للترحيب");
+	
 		
 		}catch(Exception e){
 			e.printStackTrace();

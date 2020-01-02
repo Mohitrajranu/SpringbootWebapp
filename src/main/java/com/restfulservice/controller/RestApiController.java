@@ -54,6 +54,21 @@ public class RestApiController {
 	// -------------------Retrieve All Users---------------------------------------------
 
 	/**
+	 * List all active freetrial users.
+	 *
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "/allusertokenview/", method = RequestMethod.GET)
+	public ResponseEntity<?> listAllTokenUsers() {
+		List<UserToken> users = userService.findByResetTokenIsNull();
+		if (users.isEmpty()) {
+			return new ResponseEntity<>(new ApiResponse(false, "UserNotActivated!"),HttpStatus.NO_CONTENT);
+			// You many decide to return HttpStatus.NOT_FOUND
+		}
+		return new ResponseEntity<List<UserToken>>(users, HttpStatus.OK);
+	}
+
+	/**
 	 * Gets the token user.
 	 *
 	 * @param email the email

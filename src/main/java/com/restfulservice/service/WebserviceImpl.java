@@ -43,6 +43,7 @@ import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.restfulservice.model.WordPress;
 import com.restfulservice.util.BizUtil;
+import com.restfulservice.util.MongoDbCache;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -62,24 +63,24 @@ public class WebserviceImpl implements Webservice {
 		JSONObject mainJson = null;
 		JSONObject out =null;
 		 Map<String, Object> json = null;
-		 MongoClient mongoClient = null;
+		/* MongoClient mongoClient = null;*/
 		 MongoDatabase database  = null;
 		 MongoCollection<Document> collection = null;
-		 MongoClientURI connectionString = null;
+		// MongoClientURI connectionString = null;
 		 JSONArray arr = null;
-		 String uri = null;
+		// String uri = null;
 			try {
 				arr = new JSONArray();
 				out = new JSONObject();
 				json = new HashMap<>();
-				System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+				/*System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 				System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 				System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 				System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 				uri = "mongodb://localhost:27017/?ssl=true";
 			   connectionString = new MongoClientURI(uri);
-			   mongoClient = new MongoClient(connectionString);
-			   database = mongoClient.getDatabase("webservice");
+			   mongoClient = new MongoClient(connectionString)*/;
+			   database = MongoDbCache.getInstance().getConnection().getDatabase("webservice");
 			   collection=database.getCollection(servicename);
 			   FindIterable<Document> fi = collection.find(Filters.eq("user", user));        
 		       MongoCursor<Document> cursor = fi.iterator();
@@ -98,9 +99,8 @@ public class WebserviceImpl implements Webservice {
 				log.error("getwebserviceDet error occured "+e.getMessage());
 			}
 			finally{
-				if(null!=mongoClient){
-				mongoClient.close();
-				mongoClient = null;
+				if(null!=database){
+					database = null;
 				}
 			}
 			return json;
@@ -112,23 +112,23 @@ public class WebserviceImpl implements Webservice {
 	public Map<String, Object> getuserdata(String user, String servicename, String webserviceid) {
 		JSONObject mainJson = null;
 		 Map<String, Object> json = null;
-		 MongoClient mongoClient = null;
+		// MongoClient mongoClient = null;
 		 MongoDatabase database  = null;
 		 MongoCollection<Document> collection = null;
-		 MongoClientURI connectionString = null;
+		 //MongoClientURI connectionString = null;
 		
-		 String uri = null;
+		 //String uri = null;
 			try {
 				
 				json = new HashMap<>();
-				System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+				/*System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 				System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 				System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 				System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 				uri = "mongodb://localhost:27017/?ssl=true";
 			   connectionString = new MongoClientURI(uri);
-			   mongoClient = new MongoClient(connectionString);
-			   database = mongoClient.getDatabase("webservice");
+			   mongoClient = new MongoClient(connectionString);*/
+			   database = MongoDbCache.getInstance().getConnection().getDatabase("webservice");
 			   collection=database.getCollection(servicename);
 			   FindIterable<Document> fi = collection.find(Filters.and(Filters.eq("user", user), Filters.eq("webserviceid", webserviceid)));        
 		        MongoCursor<Document> cursor = fi.iterator();
@@ -148,9 +148,8 @@ public class WebserviceImpl implements Webservice {
 				log.error("getwebserviceDet error occured "+e.getMessage());
 			}
 			finally{
-				if(null!=mongoClient){
-				mongoClient.close();
-				mongoClient = null;
+				if(null!=database){
+					database = null;
 				}
 			}
 			return json;
@@ -161,24 +160,24 @@ public class WebserviceImpl implements Webservice {
 	 */
 	public Map<String, Object> postWebserviceData(String json) {
 		Map<String, Object> jsonOut = null;
-		 MongoClient mongoClient = null;
+		// MongoClient mongoClient = null;
 		 MongoDatabase database  = null;
 		 MongoCollection<Document> collection = null;
-		 MongoClientURI connectionString = null;
+		// MongoClientURI connectionString = null;
 		 String uri = null;
 		 String collectionname = null;
 		try {
 			    jsonOut =  new HashMap<>();
 			    Document doc = Document.parse(json);
 				collectionname = doc.getString("servicename");
-				System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+			/*	System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 				System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 				System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 				System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 				uri = "mongodb://localhost:27017/?ssl=true";
 			   connectionString = new MongoClientURI(uri);
-			   mongoClient = new MongoClient(connectionString);
-			   database = mongoClient.getDatabase("webservice");
+			   mongoClient = new MongoClient(connectionString);*/
+			   database = MongoDbCache.getInstance().getConnection().getDatabase("webservice");
 			   collection=database.getCollection(collectionname);
 			   collection.insertOne(doc);
 		
@@ -189,9 +188,8 @@ public class WebserviceImpl implements Webservice {
 			log.error("postwebserviceDet error occured "+e.getMessage());
 		}
 		finally{
-			if(null!=mongoClient){
-			mongoClient.close();
-			mongoClient = null;
+			if(null!=database){
+				database = null;
 			}
 		}
 		return jsonOut;
@@ -202,11 +200,11 @@ public class WebserviceImpl implements Webservice {
 	 */
 	public Map<String, Object> putWebserviceData(String json) {
 		Map<String, Object> jsonOut = null;
-		 MongoClient mongoClient = null;
+		// MongoClient mongoClient = null;
 		 MongoDatabase database  = null;
 		 MongoCollection<Document> collection = null;
-		 MongoClientURI connectionString = null;
-		 String uri = null;
+		// MongoClientURI connectionString = null;
+		// String uri = null;
 		 String collectionname = null;
 		 String webserviceid = null;
 		try {
@@ -214,14 +212,14 @@ public class WebserviceImpl implements Webservice {
 			    Document doc = Document.parse(json);
 				collectionname = doc.getString("servicename");
 				webserviceid = doc.getString("webserviceid");
-				System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+				/*System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 				System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 				System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 				System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 				uri = "mongodb://localhost:27017/?ssl=true";
 			   connectionString = new MongoClientURI(uri);
-			   mongoClient = new MongoClient(connectionString);
-			   database = mongoClient.getDatabase("webservice");
+			   mongoClient = new MongoClient(connectionString);*/
+			   database = MongoDbCache.getInstance().getConnection().getDatabase("webservice");
 			   collection=database.getCollection(collectionname);
 			   Bson condition = new Document("$eq", webserviceid);
 				Bson filter = new Document("webserviceid", condition);
@@ -234,9 +232,8 @@ public class WebserviceImpl implements Webservice {
 			log.error("putwebserviceDet error occured "+e.getMessage());
 		}
 		finally{
-			if(null!=mongoClient){
-			mongoClient.close();
-			mongoClient = null;
+			if(null!=database){
+				database = null;
 			}
 		}
 		return jsonOut;
@@ -246,21 +243,21 @@ public class WebserviceImpl implements Webservice {
 	 * @see com.restfulservice.service.Webservice#deletuserdata(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public String deletuserdata(String user, String servicename, String webserviceid) {
-		MongoClient mongoClient = null;
+		//MongoClient mongoClient = null;
 		 MongoDatabase database  = null;
 		 MongoCollection<Document> collection = null;
-		 MongoClientURI connectionString = null;
-		 String uri = null;
+		// MongoClientURI connectionString = null;
+		// String uri = null;
 		 String res=null;
 		 try {
-				System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+				/*System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 				System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 				System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 				System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 				uri = "mongodb://localhost:27017/?ssl=true";
 			   connectionString = new MongoClientURI(uri);
-			   mongoClient = new MongoClient(connectionString);
-			   database = mongoClient.getDatabase("webservice");
+			   mongoClient = new MongoClient(connectionString);*/
+			   database = MongoDbCache.getInstance().getConnection().getDatabase("webservice");
 			   collection=database.getCollection(servicename);
 			   Bson condition = new Document("$eq", webserviceid);
 				Bson filter = new Document("webserviceid", condition);
@@ -271,9 +268,9 @@ public class WebserviceImpl implements Webservice {
 			log.error("deletuserdata error occured "+e.getMessage());
 		}
 		finally{
-			if(null!=mongoClient){
-			mongoClient.close();
-			mongoClient = null;
+			if(null!=database){
+			
+				database = null;
 			}
 		}
 		
@@ -287,20 +284,20 @@ public class WebserviceImpl implements Webservice {
 	@Override
 	public String getMailSentCount(String CreatedBy, String funnelName, String subCategory, String mailFlag,String arrayName) {
 
-		MongoClientURI connectionString = null;
-		MongoClient mongo = null;
+		//MongoClientURI connectionString = null;
+		//MongoClient mongo = null;
 		MongoDatabase db = null;
 		MongoCollection<Document> table = null;
 		StringBuilder resp = null;
 		try{
-			System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
+			/*System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
 			System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 			System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 			System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 			String uri = "mongodb://localhost:27017/?ssl=true";
 			connectionString = new MongoClientURI(uri);
-			mongo = new MongoClient(connectionString);
-			db = mongo.getDatabase("salesautoconvert");
+			mongo = new MongoClient(connectionString);*/
+			db = MongoDbCache.getInstance().getConnection().getDatabase("salesautoconvert");
 			table = db.getCollection("FirstCategoryMails");
 			StringBuilder arrayN = null;
 			/*
@@ -348,8 +345,8 @@ public class WebserviceImpl implements Webservice {
 		}
 		finally{
 			 
-       	 if(null !=mongo){
-       	 mongo.close();
+       	 if(null !=db){
+       		db = null;
        	 }
        }
 		
@@ -443,9 +440,9 @@ public class WebserviceImpl implements Webservice {
 	 */
 	@Override
 	public void savefunnel(WordPress user) {
-		MongoClientURI connectionString = null;
+		/*MongoClientURI connectionString = null;
 		MongoClient mongo = null;
-		MongoDatabase db = null;
+		*/MongoDatabase db = null;
 		MongoCollection<Document> table = null;
 		MongoCursor<Document> cursor  =  null;
 		Bson updtfilter = null;
@@ -454,14 +451,14 @@ public class WebserviceImpl implements Webservice {
 			Date dateobj = new Date();
 			String Current_Date = df.format(dateobj);
 			System.setProperty("javax.net.ssl.trustStore","/etc/ssl/firstTrustStore");
-			System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
+			/*System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 			System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 			System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
 			String uri = "mongodb://localhost:27017/?ssl=true";
 			
 			connectionString = new MongoClientURI(uri);
-			mongo = new MongoClient(connectionString);
-			db = mongo.getDatabase("salesautoconvert");
+			mongo = new MongoClient(connectionString);*/
+			db = MongoDbCache.getInstance().getConnection().getDatabase("salesautoconvert");
 			table = db.getCollection("FirstCategoryMails");
 			if(BizUtil.isNullString(user.getCreatedBy())){
 		    updtfilter = and(eq("Category", "Explore"), eq("funnelName", user.getName()), eq("CreatedBy", "jobs@bizlem.com"));
@@ -541,9 +538,8 @@ public class WebserviceImpl implements Webservice {
 				 cursor.close();
 				 cursor = null;
 		       	 }
-       	 if(null !=mongo){
-       	 mongo.close();
-       	mongo = null;
+       	 if(null !=db){
+       	db = null;
        	 }
        }
 		

@@ -44,7 +44,9 @@ public class MyWebConfig extends WebMvcConfigurerAdapter{
 		System.setProperty("javax.net.ssl.trustStorePassword","bizlem123");
 		System.setProperty ("javax.net.ssl.keyStore","/etc/ssl/MongoClientKeyCert.jks");
 		System.setProperty ("javax.net.ssl.keyStorePassword","bizlem123");
-        MongoClientOptions.Builder builder = MongoClientOptions.builder();
+        MongoClientOptions.Builder builder = MongoClientOptions.builder().maxConnectionIdleTime(60000)
+		 .connectTimeout(10000)
+		 .minConnectionsPerHost(1).connectionsPerHost(1);
         MongoClientOptions options=builder.sslEnabled(true).build();        
         return options;
     }

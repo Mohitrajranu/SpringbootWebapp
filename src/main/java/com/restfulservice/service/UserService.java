@@ -1,5 +1,6 @@
 package com.restfulservice.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.restfulservice.model.UserToken;
@@ -11,6 +12,7 @@ import com.restfulservice.model.UserToken;
  */
 public interface UserService {
 	
+	public List<UserToken> findByResetTokenIsNull();
 	/**
 	 * Find user by email.
 	 *

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.restfulservice.model.UserToken;
+import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,6 +15,8 @@ import com.restfulservice.model.UserToken;
  */
 @Repository("userTokenRepository")
 public interface UserTokenRepository extends JpaRepository<UserToken, Integer> {
+
+	List<UserToken> findByResetTokenIsNull();
 	 
  	/**
  	 * Find by email.

@@ -1,17 +1,7 @@
 package com.restfulservice.util;
 
 
-/*ldap.host=localhost
-ldap.rootdn=cn=admin,dc=portal,dc=com
-ldap.password=portal@99
-ldap.basedn=ou=People,dc=portal,dc=com
 
-ldapsearch -x -b "dc=portal,dc=com" -s sub "objectclass=*"
-
-
-ldapmodify -h localhost -x -W -D “cn=leadconvert,dc=portal,dc=com”
-
-dn: uid=leadautoconvert@gmail.com,ou=People,dc=portal,dc=com*/
 
 import java.util.Hashtable;
 import javax.naming.Context;
