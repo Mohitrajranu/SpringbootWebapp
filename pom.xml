@@ -135,7 +135,7 @@
     <dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20180813</version>
+			<version>20230227</version>
 		</dependency>
     <!-- Used to work with the older excel file format - `.xls` -->
     <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
